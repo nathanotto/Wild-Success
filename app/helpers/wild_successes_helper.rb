@@ -1,0 +1,2 @@
+module WildSuccessesHelper
+end

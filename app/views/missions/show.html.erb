@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Mission:</b>
+  <%= @mission.name %>
+</p>
+
+<p>
+  <b>Blurb:</b>
+  <%= @mission.blurb %>
+</p>
+
+<%= link_to 'Edit', edit_mission_path(@mission) %> |
+<%= link_to 'All Missions', missions_path %>
+<br><br>
+
+<%= render "wild_successes/form" %>
+
+<b>Signs and visions of wild success:</b>
+<ul>
+<%= render @mission.wild_successes.reverse %>
+</ul>
+
+<div id="wrap">
+    <div id="left_col">
+        <%= render "drivers/form" %>
+    </div>
+    <div id="right_col">
+        <%= render "constraints/form" %>
+    </div>
+</div>
+
+<br><br><br><br>
+
+<div id="wrap">
+    <div id="left_col">
+        <b>Resources and drivers of success:</b>
+        <ul>
+            <%= render @mission.drivers.reverse %>
+        </ul>
+    </div>
+    <div id="right_col">
+        <b>Constraints and obstacles to success:</b>
+            <ul>
+                <%= render @mission.constraints.reverse %>
+            </ul>
+    </div>
+</div>
+
+
+

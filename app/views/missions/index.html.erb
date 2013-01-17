@@ -1,0 +1,25 @@
+<h1>My missions:</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th>Name</th>
+    <th>Blurb</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @missions.each do |mission| %>
+  <tr>
+    <td><%= link_to 'see more...', mission %> | </td>
+    <td><%= mission.name[0..30] %></td>
+    <td>  |  <%= mission.blurb[0..60] %></td>
+    <td>&nbsp &nbsp...<%= link_to 'Edit', edit_mission_path(mission) %> | </td>
+    <td><%= link_to 'Destroy', mission, method: :delete, data: { confirm: 'All mission data will be permantently deleted. Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mission', new_mission_path %>

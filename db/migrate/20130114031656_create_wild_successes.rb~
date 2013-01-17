@@ -1,0 +1,11 @@
+class CreateWildSuccesses < ActiveRecord::Migration
+  def change
+    create_table :wild_successes do |t|
+      t.string :success
+      t.references :mision
+
+      t.timestamps
+    end
+    add_index :wild_successes, :mision_id
+  end
+end
