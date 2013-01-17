@@ -24,28 +24,33 @@
 <div id="wrap">
     <div id="left_col">
         <%= render "drivers/form" %>
-    </div>
-    <div id="right_col">
-        <%= render "constraints/form" %>
-    </div>
-</div>
-
-<br><br><br><br>
-
-<div id="wrap">
-    <div id="left_col">
         <b>Resources and drivers of success:</b>
         <ul>
             <%= render @mission.drivers.reverse %>
         </ul>
+        
+        <br>
+        
+        <%= render "facts/form" %>
+        <b>Facts:</b>
+        <ul>
+            <%= render @mission.facts.reverse %>
+        </ul>
     </div>
     <div id="right_col">
+        <%= render "constraints/form" %>
         <b>Constraints and obstacles to success:</b>
-            <ul>
-                <%= render @mission.constraints.reverse %>
-            </ul>
+        <ul>
+            <%= render @mission.constraints.reverse %>
+        </ul>
+        
+        <br>
+
+        render "assumptions/form" here
+         <b>Assumptions:</b>
+        <ul>
+        render @mission.assumptions.reverse here
+        </ul>
     </div>
 </div>
-
-
 

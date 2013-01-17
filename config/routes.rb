@@ -3,7 +3,7 @@ Gsd::Application.routes.draw do
       resources :wild_successes
       resources :drivers
       resources :constraints
-      # resources :facts
+      resources :facts
       # resources :assumptions
       # resources :essential_tasks
       # resources :course_of_actions

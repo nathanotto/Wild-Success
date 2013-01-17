@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130116233106) do
+ActiveRecord::Schema.define(:version => 20130117040925) do
 
   create_table "constraints", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(:version => 20130116233106) do
   end
 
   add_index "drivers", ["mission_id"], :name => "index_drivers_on_mission_id"
+
+  create_table "facts", :force => true do |t|
+    t.string   "name"
+    t.integer  "mission_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "facts", ["mission_id"], :name => "index_facts_on_mission_id"
 
   create_table "missions", :force => true do |t|
     t.string   "name"
