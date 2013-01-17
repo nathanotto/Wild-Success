@@ -4,7 +4,7 @@ Gsd::Application.routes.draw do
       resources :drivers
       resources :constraints
       resources :facts
-      # resources :assumptions
+      resources :assumptions
       # resources :essential_tasks
       # resources :course_of_actions
     end

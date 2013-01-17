@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130117040925) do
+ActiveRecord::Schema.define(:version => 20130117050016) do
+
+  create_table "assumptions", :force => true do |t|
+    t.string   "name"
+    t.integer  "mission_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "assumptions", ["mission_id"], :name => "index_assumptions_on_mission_id"
 
   create_table "constraints", :force => true do |t|
     t.string   "name"
