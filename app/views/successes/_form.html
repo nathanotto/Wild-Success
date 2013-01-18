@@ -1,0 +1,9 @@
+<%= form_for([@mission, @mission.successes.build]) do |f| %>
+  <div class="field">
+    <%= f.label 'Envision wild success:' %>
+      <%= f.text_field :name, :size => 60 %>
+   <class="actions">
+    <%= f.submit "Add to Successes" %>
+  </div>
+<% end %>
+ 

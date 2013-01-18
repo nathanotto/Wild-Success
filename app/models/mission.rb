@@ -6,7 +6,7 @@ class Mission < ActiveRecord::Base
     :length => { :minimum => 20 }
     
     has_many :drivers, :dependent => :destroy
-    has_many :wild_successes, :dependent => :destroy
+    has_many :successes, :dependent => :destroy
     has_many :constraints, :dependent => :destroy
     has_many :facts, :dependent => :destroy
     has_many :assumptions, :dependent => :destroy

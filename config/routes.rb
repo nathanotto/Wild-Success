@@ -1,6 +1,6 @@
 Gsd::Application.routes.draw do
   resources :missions do
-      resources :wild_successes
+      resources :successes
       resources :drivers
       resources :constraints
       resources :facts

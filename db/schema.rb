@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130117050016) do
+ActiveRecord::Schema.define(:version => 20130117213546) do
 
   create_table "assumptions", :force => true do |t|
     t.string   "name"
@@ -55,6 +55,15 @@ ActiveRecord::Schema.define(:version => 20130117050016) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "successes", :force => true do |t|
+    t.string   "name"
+    t.integer  "mission_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "successes", ["mission_id"], :name => "index_successes_on_mission_id"
 
   create_table "wild_successes", :force => true do |t|
     t.string   "success"
