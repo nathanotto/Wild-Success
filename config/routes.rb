@@ -1,4 +1,6 @@
 Gsd::Application.routes.draw do
+  devise_for :users
+
   resources :missions do
       resources :successes
       resources :drivers
@@ -6,7 +8,7 @@ Gsd::Application.routes.draw do
       resources :facts
       resources :assumptions
       # resources :essential_tasks
-      # resources :course_of_actions
+      # resources :actions
     end
 
   get "home/index"
