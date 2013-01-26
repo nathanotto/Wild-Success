@@ -1,8 +1,11 @@
 class MissionsController < ApplicationController
+    before_filter :authenticate_user!, :except => [:show, :index]
+    
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all
+      
+      @missions = Mission.all 
 
     respond_to do |format|
       format.html # index.html.erb

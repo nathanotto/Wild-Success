@@ -3,6 +3,6 @@ class Success < ActiveRecord::Base
   attr_accessible :name
     validates :name, :presence => true
     
-    #has_many :course_of_actions #need to connect to course_of_action_id
+    #has_many :coactions #need to connect to course_of_action_id
 
 end

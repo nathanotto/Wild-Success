@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Mission:</b>
+  <b>Mission HI MICHAEL!:</b>
   <%= @mission.name %>
 </p>
 
@@ -17,16 +17,20 @@
 <%= render "successes/form" %>
 
 <b>Signs and visions of wild success:</b>
-<ul>
-<%= render @mission.successes.reverse %>
-</ul>
+     <! # The form creates an empty instance waiting to be posted. We want to keep that empty instance invisible !>
+     <! # out of the rendered array -- so we render n-1 elements of the array. !>
+    <ul> 
+     <% n = @mission.successes.count - 1 %>
+     <%= render @mission.successes[0..n].reverse %>
+    </ul>
 
 <div id="wrap">
     <div id="left_col">
         <%= render "drivers/form" %>
         <b>Resources and drivers of success:</b>
         <ul>
-            <%= render @mission.drivers.reverse %>
+            <% n = @mission.drivers.count - 1 %>
+            <%= render @mission.drivers[0..n].reverse %>
         </ul>
         
         <br>
@@ -34,14 +38,16 @@
         <%= render "facts/form" %>
         <b>Facts:</b>
         <ul>
-            <%= render @mission.facts.reverse %>
+            <% n = @mission.facts.count - 1 %>
+            <%= render @mission.facts[0..n].reverse %>
         </ul>
     </div>
     <div id="right_col">
         <%= render "constraints/form" %>
         <b>Constraints and obstacles to success:</b>
         <ul>
-            <%= render @mission.constraints.reverse %>
+            <% n = @mission.constraints.count - 1 %>
+            <%= render @mission.constraints[0..n].reverse %>
         </ul>
         
         <br>
@@ -49,7 +55,8 @@
         <%= render "assumptions/form" %>
          <b>Assumptions:</b>
         <ul>
-        <%= render @mission.assumptions.reverse %>
+            <% n = @mission.assumptions.count - 1 %>
+            <%= render @mission.assumptions[0..n].reverse %>
         </ul>
     </div>
 </div>
