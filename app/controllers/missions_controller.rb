@@ -4,8 +4,8 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-      
-      @missions = Mission.all 
+      # Want to get the misssions that belong to the user, and the missions that the user has permissions to see or collaborate on. 
+      @missions = Mission.where(:user_id => current_user.id) #@books = Book.where(:author_id => [1, 2])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -43,8 +43,9 @@ class MissionsController < ApplicationController
   # POST /missions
   # POST /missions.json
   def create
-    @mission = Mission.new(params[:mission])
-
+      @mission = Mission.new(params[:mission])
+      @mission.user_id = current_user.id #Pretty sure this is where to do this
+      
     respond_to do |format|
       if @mission.save
         format.html { redirect_to @mission, notice: 'Mission was successfully created.' }

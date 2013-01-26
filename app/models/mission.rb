@@ -1,5 +1,5 @@
 class Mission < ActiveRecord::Base
-  attr_accessible :blurb, :name
+    attr_accessible :blurb, :name, :user_id, :is_public
     
     validates :name,  :presence => true
     validates :blurb, :presence => true,
