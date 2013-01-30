@@ -1,6 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <% if @mission.is_public %>
+    <b>Public </b>
+  <% end %>
   <b>Mission:</b>
   <%= @mission.name %>
 </p>

@@ -1,8 +1,11 @@
 Gsd::Application.routes.draw do
   devise_for :users
     resources :users do
-        # resources :collaborations
-    end
+        resources :collaborators # do
+        # resources :missions
+        #  end
+        end 
+ 
 
   resources :missions do
       resources :successes
@@ -10,7 +13,9 @@ Gsd::Application.routes.draw do
       resources :constraints
       resources :facts
       resources :assumptions
-      # resources :collaborations
+      resources :collaborators # do
+      #  resources :users
+      #  end
       # resources :essential_tasks
       # resources :actions
     end

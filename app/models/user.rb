@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
     validates :name,  :presence => true
     # attr_accessible :title, :body
     
-    has_many :missions
+    # has_many :missions
     has_many :collaborators
-    # has_many :missions, :through => :collaborations
+    # has_many :missions, :through => :collaborators
 end

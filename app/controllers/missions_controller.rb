@@ -4,9 +4,14 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-      # Want to get the misssions that belong to the user, and the missions that the user has permissions to see or collaborate on. 
-      @missions = Mission.where(:user_id => current_user.id) #@books = Book.where(:author_id => [1, 2])
-
+      # The right way to do this is with user has_many missions through collaborators. Couldn't get the routes or models to work, so I did it this klugy way insted. ideally, @missions = @user.missions.
+    
+      @collaborators = Collaborator.where(:user_id => current_user.id)
+      @missions = Mission.where( :id => @collaborators[0].mission_id)
+      for i in 1..(@collaborators.length-1)
+       @missions = @missions + Mission.where( :id => @collaborators[i].mission_id)
+          end 
+          
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @missions }
@@ -37,14 +42,23 @@ class MissionsController < ApplicationController
 
   # GET /missions/1/edit
   def edit
-    @mission = Mission.find(params[:id])
+      @mission = Mission.find(params[:id])
+      @collaborator = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id)
+      unless @collaborator.first.permission == 'creator' || @collaborator.first.permission == 'admin'
+          flash[:notice] = "You don't have creator or admin permission to edit this mission."
+          redirect_to missions_url
+          end
   end
 
   # POST /missions
   # POST /missions.json
   def create
       @mission = Mission.new(params[:mission])
-      @mission.user_id = current_user.id #Pretty sure this is where to do this
+      @mission.save
+      # @mission.user_id = current_user.id #Sets the owner and creator of the mission. Outdated, now use collaborators exclusively.
+      # Set the current user to 'creator' with a new entry in Collaborators:
+      @collaborator = Collaborator.new(:user_id => current_user.id, :mission_id => @mission.id, :permission => 'creator', :confirmed => true)
+      @collaborator.save
       
     respond_to do |format|
       if @mission.save

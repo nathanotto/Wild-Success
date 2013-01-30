@@ -12,11 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :mission %><br />
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :blurb %><br />
+    <%= f.check_box :is_public %>
+    <%= f.label :public_can_view %>
+  </div>
+  <div class="field">
+    <%= f.label :about_this_mission %><br />
     <%= f.text_area :blurb %>
   </div>
   <div class="actions">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130126175531) do
+ActiveRecord::Schema.define(:version => 20130129192346) do
 
   create_table "assumptions", :force => true do |t|
     t.string   "name"
@@ -22,21 +22,13 @@ ActiveRecord::Schema.define(:version => 20130126175531) do
 
   add_index "assumptions", ["mission_id"], :name => "index_assumptions_on_mission_id"
 
-  create_table "collaborations", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "mission_id"
-    t.integer  "type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "collaborators", :force => true do |t|
     t.integer  "mission_id"
     t.integer  "user_id"
-    t.string   "type"
+    t.string   "permission"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.boolean  "confirmed?"
+    t.boolean  "confirmed"
   end
 
   add_index "collaborators", ["mission_id"], :name => "index_collaborators_on_mission_id"
