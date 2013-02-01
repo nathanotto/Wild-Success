@@ -7,10 +7,11 @@ class MissionsController < ApplicationController
       # The right way to do this is with user has_many missions through collaborators. Couldn't get the routes or models to work, so I did it this klugy way insted. ideally, @missions = @user.missions.
     
       @collaborators = Collaborator.where(:user_id => current_user.id)
-      @missions = Mission.where( :id => @collaborators[0].mission_id)
+      if @collaborators[0] then @missions = Mission.where( :id => @collaborators[0].mission_id)
       for i in 1..(@collaborators.length-1)
        @missions = @missions + Mission.where( :id => @collaborators[i].mission_id)
-          end 
+          end
+        end 
           
     respond_to do |format|
       format.html # index.html.erb
@@ -28,7 +29,18 @@ class MissionsController < ApplicationController
       format.json { render json: @mission }
     end
   end
+    
+  # GET /missions/plan  need to add route for /missions/plan
+    def plan
+        @mission = Mission.find(params[:id])
+        
+        respond_to do |format|
+            format.html # show.html.erb
+            format.json { render json: @mission }
+        end
+    end
 
+    
   # GET /missions/new
   # GET /missions/new.json
   def new

@@ -1,8 +1,10 @@
 <h1>My missions:</h1>
 
+<% if @missions then %>
 <table>
   <tr>
     <th></th>
+    <th>Status</th>
     <th>Name</th>
     <th>Blurb</th>
     <th></th>
@@ -12,11 +14,11 @@
 <%# Want to list my missions, my collaboration missions, first 10 public missions %>
 <%# later want activity page showing recent updates since my last visit %>
 <%# So, lets get an array of all those missions from the index controller... %>
-<% @missions.each do |mission| %>
+ <% @missions.each do |mission| %>
   <tr>
     <% @collaborator = Collaborator.where( :mission_id => mission.id, :user_id => current_user.id ) %>
-    <td><%= @collaborator.first.permission %></td>
-    <td><%= link_to 'plan...', mission %> | </td>
+    <td><%= @collaborator.first.permission.capitalize %></td>
+    <td><%= if @collaborator.first.permission != 'viewer' then link_to 'Plan', mission end %> | </td>
     <td><%= mission.name[0..30] %></td>
     <td>  |  <%= mission.blurb[0..60] %></td>
     <% if @collaborator.first.permission == 'creator' || @collaborator.first.permission == 'admin' then   %>
@@ -24,7 +26,10 @@
        <td><%= link_to 'Destroy', mission, method: :delete, data: { confirm: 'All mission data will be permantently deleted. Are you sure?' } %></td>
     <% end %>
   </tr>
-<% end %>
+ <% end %>
+ <% else %>
+    <%= flash[:notice] = "You have no missions to show here." %>
+ <% end %>
 </table>
 
 <br />
