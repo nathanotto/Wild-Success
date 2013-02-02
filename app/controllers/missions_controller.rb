@@ -11,7 +11,7 @@ class MissionsController < ApplicationController
       for i in 1..(@collaborators.length-1)
        @missions = @missions + Mission.where( :id => @collaborators[i].mission_id)
           end
-        end 
+        end     
           
     respond_to do |format|
       format.html # index.html.erb
@@ -19,6 +19,16 @@ class MissionsController < ApplicationController
     end
   end
 
+    # GET need to add route here to public missions, paginate the view
+    def index_pubic
+      @missions = @missions + Mission.where(:is_public => true)
+      respond_to do |format|
+          format.html # index.html.erb
+          format.json { render json: @missions }
+
+      end
+    end 
+      
   # GET /missions/1
   # GET /missions/1.json
   def show
@@ -100,7 +110,7 @@ class MissionsController < ApplicationController
   end
 
   # DELETE /missions/1
-  # DELETE /missions/1.json
+  # DELETE /missions/1.json NOTE: need to clean up Collaborators here
   def destroy
     @mission = Mission.find(params[:id])
     @mission.destroy

@@ -1,6 +1,7 @@
 class Success < ActiveRecord::Base
   belongs_to :mission
-  attr_accessible :name
+    belongs_to :user
+  attr_accessible :name, :user_id
     validates :name, :presence => true
     
     #has_many :coactions #need to connect to course_of_action_id

@@ -1,19 +1,29 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <% c = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id).first %>
   <% if @mission.is_public %>
     <b>Public </b>
+  <% else %>
+  <font color = "#00800"><%= c.permission.capitalize %></font>
   <% end %>
   <b>Mission:</b>
   <%= @mission.name %>
 </p>
 
 <p>
-  <b>Blurb:</b>
-  <%= @mission.blurb %>
+  <table>
+  <col width="800">
+  <tr>
+  <td> <b>Blurb: </b><%= @mission.blurb %></td>
+  </tr>
+  </table>
+  
 </p>
 
-<%= link_to 'Edit', edit_mission_path(@mission) %> |
+<% if c.permission == ('creator' || 'admin') then %>
+    <%= link_to 'Edit', edit_mission_path(@mission) %> |
+  <% end %>
 <%= link_to 'All Missions', missions_path %>
 <br><br>
 
