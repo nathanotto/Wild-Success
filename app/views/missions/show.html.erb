@@ -10,6 +10,9 @@
   <b>Mission:</b>
   <%= @mission.name %>
 </p>
+<p>Put link to Add Collaborators Here | 
+<% cs = Collaborator.where(:mission_id => @mission.id) %>
+ Number of collaborators: <%= cs.count %></p>
 
 <p>
   <table>
@@ -27,7 +30,7 @@
 <%= link_to 'All Missions', missions_path %>
 <br><br>
 
-<b>Signs and visions of wild success:</b>
+<b>Signs and visions of wild success:</b>   Link to clumping here
 <%= render "successes/form" %>
 
      <! # The form creates an empty instance waiting to be posted. We want to keep that empty instance invisible !>
