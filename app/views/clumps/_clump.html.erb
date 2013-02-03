@@ -2,7 +2,7 @@
     <% if (c.permission == 'creator' || c.permission == 'admin') || clump.user_id == current_user.id then %>
     <%= link_to 'Delete', [clump.mission, clump],
                :confirm => 'Are you sure?',
-               :method => :delete %> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> | <%= link_to 'Edit', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id, :edit => true) %> | <%= clump.name %></li>
+               :method => :delete %> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> | <%= link_to 'Edit', mission_clumps_path(:mission_id => @mission.id, :clump_id => clump.id, :kind => $kind, :edit => true, :method => :put) %> | <%= clump.name %></li>
     <% else %>
     <font color = "#FFA500"><%= User.find(clump.user_id).name[0..4] %></font> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> | <%= clump.name %>
     <% end %>              
