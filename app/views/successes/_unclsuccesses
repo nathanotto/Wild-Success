@@ -1,0 +1,9 @@
+<li><% c = Collaborator.where(:user_id => current_user.id, :mission_id => success.mission_id).first %>
+    <% if (c.permission == 'creator' || c.permission == 'admin') || success.user_id == current_user.id then %>
+    <%= link_to 'foo', [success.mission, success],
+               :confirm => 'Are you sure?',
+               :method => :delete %> | <%= success.name %></li>
+    <% else %>
+    <font color = "#FFA500"><%= User.find(success.user_id).name[0..4] %></font>: <%= success.name %>
+    <% end %>              
+               

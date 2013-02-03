@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<BR>
+
+
+<b>Clump<font color = "#7D2252"> <%= params[:kind].capitalize %></font> for Mission: </b><%= @mission.name %>
+
+<p>New Clump form (returns the new clump active)</p>
+<%= render "clumps/form" %>
+
+<br>Add to clump (list the clumps for mission and kind)
+
+
+<table  width="50%">
+  <col width="100">
+  <col width="100">
+  <tr>
+    <th>Unclumped <%= params[:kind].capitalize.pluralize %></th>
+    <th><%= if params[:clump_id] then Clump.find(params[:clump_id]).name end || "No clump selected" %></th>
+  </tr>
+  <tr>
+    <td><ul>
+        <% @mission.successes.each do |success| %>
+            <% if !(success.clump) then %>
+                <li><%= success.name %></li>
+            <% end %>
+        <% end %>
+        </ul>
+    </td>
+    <td>$100</td>
+  </tr>
+</table>
+
+<p> list the available clumps here to put up top. Need to put a link next to the clumps that makes them the "current clump". Method make_current_clump </p>
+
+<%=  render @mission.clumps.find_all { |clump| clump.user_id != nil }%>
+
+
+
+
+
+
+

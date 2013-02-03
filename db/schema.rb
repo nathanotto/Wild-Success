@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130202170009) do
+ActiveRecord::Schema.define(:version => 20130202213539) do
 
   create_table "assumptions", :force => true do |t|
     t.string   "name"
@@ -19,10 +19,24 @@ ActiveRecord::Schema.define(:version => 20130202170009) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.integer  "clump_id"
   end
 
+  add_index "assumptions", ["clump_id"], :name => "index_assumptions_on_clump_id"
   add_index "assumptions", ["mission_id"], :name => "index_assumptions_on_mission_id"
   add_index "assumptions", ["user_id"], :name => "index_assumptions_on_user_id"
+
+  create_table "clumps", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "mission_id"
+    t.string   "kind"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "clumps", ["mission_id"], :name => "index_clumps_on_mission_id"
+  add_index "clumps", ["user_id"], :name => "index_clumps_on_user_id"
 
   create_table "collaborators", :force => true do |t|
     t.integer  "mission_id"
@@ -42,8 +56,10 @@ ActiveRecord::Schema.define(:version => 20130202170009) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.integer  "clump_id"
   end
 
+  add_index "constraints", ["clump_id"], :name => "index_constraints_on_clump_id"
   add_index "constraints", ["mission_id"], :name => "index_constraints_on_mission_id"
   add_index "constraints", ["user_id"], :name => "index_constraints_on_user_id"
 
@@ -53,8 +69,10 @@ ActiveRecord::Schema.define(:version => 20130202170009) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.integer  "clump_id"
   end
 
+  add_index "drivers", ["clump_id"], :name => "index_drivers_on_clump_id"
   add_index "drivers", ["mission_id"], :name => "index_drivers_on_mission_id"
   add_index "drivers", ["user_id"], :name => "index_drivers_on_user_id"
 
@@ -64,8 +82,10 @@ ActiveRecord::Schema.define(:version => 20130202170009) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.integer  "clump_id"
   end
 
+  add_index "facts", ["clump_id"], :name => "index_facts_on_clump_id"
   add_index "facts", ["mission_id"], :name => "index_facts_on_mission_id"
   add_index "facts", ["user_id"], :name => "index_facts_on_user_id"
 
@@ -84,8 +104,10 @@ ActiveRecord::Schema.define(:version => 20130202170009) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.integer  "clump_id"
   end
 
+  add_index "successes", ["clump_id"], :name => "index_successes_on_clump_id"
   add_index "successes", ["mission_id"], :name => "index_successes_on_mission_id"
   add_index "successes", ["user_id"], :name => "index_successes_on_user_id"
 

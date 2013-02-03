@@ -13,9 +13,8 @@ Gsd::Application.routes.draw do
       resources :constraints
       resources :facts
       resources :assumptions
-      resources :collaborators # do
-      #  resources :users
-      #  end
+      resources :collaborators
+      resources :clumps
       # resources :essential_tasks
       # resources :actions
     end
