@@ -30,7 +30,7 @@
 <%= link_to 'All Missions', missions_path %>
 <br><br>
 
-<b>Signs and visions of wild success:</b><%= link_to 'Start Clumping', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   Link to clumping here = new if none; continue clumping if started; see clumps if complete
+<b>Signs and visions of wild success:</b>  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
 <%= render "successes/form" %>
 
      <! # The form creates an empty instance waiting to be posted. We want to keep that empty instance invisible !>
