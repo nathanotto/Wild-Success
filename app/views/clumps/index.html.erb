@@ -20,6 +20,8 @@
 <b>Clump<font color = "#7D2252"> <%= params[:kind].capitalize %></font> for Mission: </b><%= @mission.name %>
 
 <BR><BR>
+<%= link_to 'Back to mission', @mission %>
+<BR><BR>
 <% if params[:edvar] then %>
     <%= render "clumps/edvar_form" %>
 <% else %>
@@ -30,7 +32,7 @@
 
 
 
-<table  width="50%">
+<table  width="50%" border = "1">
   <col width="500">
   <col width="500">
   <tr>
@@ -58,12 +60,11 @@
             <% end %>
         <% end %>
         </ul>
-    <td>
     </td>
   </tr>
 </table>
 
-<p> BUG FIX needed where Update Clump updates instead of creating a new clump </p>
+<BR><BR>
 
 <%=  render @mission.clumps.find_all { |clump| clump.user_id != nil }%>
 
