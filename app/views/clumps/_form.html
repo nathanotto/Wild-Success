@@ -1,16 +1,11 @@
 <%= form_for([@mission, @mission.clumps.build]) do |f| %>
 <div class="field">
-    <%= f.text_field :name, :size => 60, :value => if params[:edit] then Clump.find(params[:clump_id]).name else 'New clump name here' end  %>
+    <%= f.text_field :name, :size => 60, :value => 'New clump name here'  %>
     <% $kind = params[:kind] %>
       
     
     <class="actions">
-        <% if params[:edit] then %>
-        <br><%= f.submit "Update clump", :method => :put %>
-        <% else %>
             <br><%= f.submit "New clump" %>
-        <% end %>
-        
 
         </div>
 <% end %>

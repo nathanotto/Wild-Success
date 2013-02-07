@@ -19,6 +19,8 @@ Gsd::Application.routes.draw do
       # resources :actions
     end
 
+    put  "missions/:mission_id/clumps" => 'clumps#update'
+    
   get "home/index"
 
   # The priority is based upon order of creation:

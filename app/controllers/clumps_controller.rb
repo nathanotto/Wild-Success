@@ -31,6 +31,16 @@ class ClumpsController < ApplicationController
     end
     
     def update
+        @mission = Mission.find(params[:mission_id])
+        @clump = Clump.find($clump_id_param) # want to use (params[:clump_id]) but doesn't pass through? hate to use global variable but can't find another way
+        @clump.name = params[:clump][:name]
+        @clump.save
+        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => @clump.id)
+    end
+    
+    def show
+        @clump = Clump.find(params[:id])
+        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => @clump.id)
     end
     
 

@@ -20,7 +20,12 @@
 <b>Clump<font color = "#7D2252"> <%= params[:kind].capitalize %></font> for Mission: </b><%= @mission.name %>
 
 <BR><BR>
-<%= render "clumps/form" %>
+<% if params[:edvar] then %>
+    <%= render "clumps/edvar_form" %>
+<% else %>
+    <%= render "clumps/form" %>
+<% end %>
+
 
 
 
@@ -46,6 +51,7 @@
     </td><td><ul>
         <% if params[:clump_id] then %>
           <% @clump = Clump.find(params[:clump_id]) %>
+          <% $clump_id_param = params[:clump_id] %> <! # hate to do this global var but can't get params to go to controller !>
           <% @clump.successes.each do |success|    %>
                 <li><%= link_to 'Rem', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => params[:clump_id], :success_id => success.id, :add_to_clump => false) %> | 
                 <%= success.name %></li>
@@ -60,6 +66,8 @@
 <p> BUG FIX needed where Update Clump updates instead of creating a new clump </p>
 
 <%=  render @mission.clumps.find_all { |clump| clump.user_id != nil }%>
+
+
 
 
 
