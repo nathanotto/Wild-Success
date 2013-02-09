@@ -1,7 +1,8 @@
 <%= form_for([@mission, @mission.clumps.build], :url => mission_clumps_path, :html => { :method  => :put } ) do |f| %>
 <div class="field">
     <%= f.text_field :name, :size => 60, :value => Clump.find(params[:clump_id]).name  %>
-    <% $kind = params[:kind] %>
+    <%= f.hidden_field :kind, :value => params[:kind] %>
+    <%= f.hidden_field :id, :value => params[:clump_id] %>
     <class="actions">
         <br><%= f.submit "Update clump" %>
         </div>

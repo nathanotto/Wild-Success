@@ -32,13 +32,10 @@
 
 <b>Signs and visions of wild success:</b>  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
 <%= render "successes/form" %>
-
-     <! # The form creates an empty instance waiting to be posted. We want to keep that empty instance invisible !>
-     <! # out of the rendered array -- so we render n-1 elements of the array. !>
     <ul> 
-     <% n = @mission.successes.count - 1 %>
-    <% if n >= 0 %>
-        <%= render @mission.successes[0..n].reverse %>
+     <% successes = @mission.successes.find_all { |success|  success.user_id } %>
+    <% if successes %>
+        <%= render successes.reverse %>
         <% else %>
             <li><font color="b5b5b5">Visions of wild success appear here</font></li>
     <% end %>
@@ -49,22 +46,20 @@
         <b>Resources and drivers of success:</b>
         <%= render "drivers/form" %>
         <ul>
-            <% n = @mission.drivers.count - 1 %>
-            <% if n >= 0 %>
-              <%= render @mission.drivers[0..n].reverse %>
+        <% drivers = @mission.drivers.find_all { |driver|  driver.user_id } %>
+        <% if drivers %>
+              <%= render drivers.reverse %>
             <% else %>
               <li><font color="b5b5b5">Drivers and resources appear here</font></li>
             <% end %>
-        </ul>
-        
-        <br>
-        
+        </ul>        
+        <br>        
         <b>Facts:</b>
         <%= render "facts/form" %>
         <ul>
-            <% n = @mission.facts.count - 1 %>
-            <% if n >= 0 %>
-              <%= render @mission.facts[0..n].reverse %>
+            <% facts = @mission.facts.find_all { |fact|  fact.user_id } %>
+            <% if facts %>
+              <%= render facts.reverse %>
             <% else %>
               <li><font color="b5b5b5">Facts appear here</font></li>
             <% end %>
@@ -74,22 +69,20 @@
         <b>Constraints and obstacles to success:</b>
         <%= render "constraints/form" %>
         <ul>
-            <% n = @mission.constraints.count - 1 %>
-            <% if n >= 0 %>
-              <%= render @mission.constraints[0..n].reverse %>
+            <% constraints = @mission.constraints.find_all { |constraint|  constraint.user_id } %>
+            <% if constraints %>
+              <%= render constraints.reverse %>
             <% else %>
               <li><font color="b5b5b5">Constraints appear here</font></li>
             <% end %>
         </ul>
-        
         <br>
-
          <b>Assumptions:</b>
         <%= render "assumptions/form" %>
         <ul>
-            <% n = @mission.assumptions.count - 1 %>
-            <% if n >= 0 %>
-              <%= render @mission.assumptions[0..n].reverse %>
+            <% assumptions = @mission.assumptions.find_all { |assumption|  assumption.user_id } %>
+            <% if assumptions %>
+              <%= render assumptions.reverse %>
             <% else %>
               <li><font color="b5b5b5">Assumptions appear here</font></li>
             <% end %>

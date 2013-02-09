@@ -3,10 +3,10 @@ class ClumpsController < ApplicationController
         @mission = Mission.find(params[:mission_id])
         @clump = @mission.clumps.new(params[:clump])
         @clump.user_id = current_user.id
-        @clump.kind = $kind
+        # @clump.kind = params[:kind] # BUG want to factor this into a local variable...
         @clump.save
 
-        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => @clump.id)
+        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => params[:clump][:kind], :clump_id => @clump.id)
     end
     
     def destroy
@@ -32,15 +32,15 @@ class ClumpsController < ApplicationController
     
     def update
         @mission = Mission.find(params[:mission_id])
-        @clump = Clump.find($clump_id_param) # want to use (params[:clump_id]) but doesn't pass through? hate to use global variable but can't find another way
+        @clump = Clump.find(params[:clump][:id]) # want to use (params[:clump_id]) but doesn't pass through? hate to use global variable but can't find another way
         @clump.name = params[:clump][:name]
         @clump.save
-        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => @clump.id)
+        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => @clump.kind, :clump_id => @clump.id)
     end
     
     def show
         @clump = Clump.find(params[:id])
-        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => @clump.id)
+        redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => @clump.kind, :clump_id => @clump.id)
     end
     
 
