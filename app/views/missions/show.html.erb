@@ -11,8 +11,8 @@
   <%= @mission.name %>
 </p>
 <p>Put link to Add Collaborators Here | 
-<% cs = Collaborator.where(:mission_id => @mission.id) %>
- Number of collaborators: <%= cs.count %></p>
+
+ Number of collaborators: <%= Collaborator.where(:mission_id => @mission.id).count %></p>
 
 <p>
   <table>
@@ -32,61 +32,69 @@
 
 <b>Signs and visions of wild success:</b>  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
 <%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 
-    <ul> 
+
      <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'success' } %>
-    <% if stickies[0] %>
+   <div style="margin-left: 2em;">
+     <% if stickies[0] %>
         <%= render stickies.reverse %> 
         <% else %>
-            <li><font color="b5b5b5">Visions of wild success appear here</font></li>
+            <tr><td>><font color="b5b5b5">Visions of wild success appear here</font></li></td></tr>
     <% end %>
-    </ul>
+    </div>
 
+<BR><BR>
 <div id="wrap">
     <div id="left_col">
         <b>Resources and drivers of success:</b>  <%= link_to 'Clump Drivers', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %> 
         <%= render :partial => "stickies/form" , :locals => { :kind => "driver" } %>
-        <ul>
+      
             <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'driver' } %>
+            <div style="margin-left: 2em;">
             <% if stickies[0] %>
                 <%= render stickies.reverse %>
             <% else %>
-              <li><font color="b5b5b5">Drivers and resources appear here</font></li>
+              ><font color="b5b5b5">Drivers and resources appear here</font>
             <% end %>
-        </ul>        
-        <br>        
+            </div>
+      <BR><BR>      
         <b>Facts:</b> <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
         <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
-        <ul>
+       
             <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
+            <div style="margin-left: 2em;">
             <% if stickies[0] %>
                 <%= render stickies.reverse %>
             <% else %>
-              <li><font color="b5b5b5">Facts appear here</font></li>
+              ><font color="b5b5b5">Facts appear here</font>
             <% end %>
-        </ul>
+            </div>
+       <BR><BR>
     </div>
     <div id="right_col">
         <b>Constraints and obstacles to success:</b>  <%= link_to 'Clump Constraints', mission_clumps_path(:mission_id => @mission.id, :kind => 'constraint') %>
         <%= render :partial => "stickies/form" , :locals => { :kind => "constraint" } %>
-        <ul>
+
             <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'constraint' } %>
+            <div style="margin-left: 2em;">
             <% if stickies[0] %>
                 <%= render stickies.reverse %>
             <% else %>
-              <li><font color="b5b5b5">Constraints appear here</font></li>
+              ><font color="b5b5b5">Constraints appear here</font></li>
             <% end %>
-        </ul>
-        <br>
-         <b>Assumptions:</b>  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'assumption') %>
+            </div>
+       <BR><BR>
+         <b>Assumptions:</b>  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %>
         <%= render :partial => "stickies/form" , :locals => { :kind => "assumption" } %>
-        <ul>
+    
             <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'assumption' } %>
+            <div style="margin-left: 2em;">
             <% if stickies[0] %>
                 <%= render stickies.reverse %>
             <% else %>
-              <li><font color="b5b5b5">Assumptions appear here</font></li>
+            ><font color="b5b5b5">Assumptions appear here</font></li>
             <% end %>
-        </ul>
+            </div>
+       <BR><BR>
     </div>
 </div>
 
