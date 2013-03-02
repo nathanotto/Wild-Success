@@ -11,20 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130202213539) do
-
-  create_table "assumptions", :force => true do |t|
-    t.string   "name"
-    t.integer  "mission_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_id"
-    t.integer  "clump_id"
-  end
-
-  add_index "assumptions", ["clump_id"], :name => "index_assumptions_on_clump_id"
-  add_index "assumptions", ["mission_id"], :name => "index_assumptions_on_mission_id"
-  add_index "assumptions", ["user_id"], :name => "index_assumptions_on_user_id"
+ActiveRecord::Schema.define(:version => 20130209235430) do
 
   create_table "clumps", :force => true do |t|
     t.integer  "user_id"
@@ -50,45 +37,6 @@ ActiveRecord::Schema.define(:version => 20130202213539) do
   add_index "collaborators", ["mission_id"], :name => "index_collaborators_on_mission_id"
   add_index "collaborators", ["user_id"], :name => "index_collaborators_on_user_id"
 
-  create_table "constraints", :force => true do |t|
-    t.string   "name"
-    t.integer  "mission_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_id"
-    t.integer  "clump_id"
-  end
-
-  add_index "constraints", ["clump_id"], :name => "index_constraints_on_clump_id"
-  add_index "constraints", ["mission_id"], :name => "index_constraints_on_mission_id"
-  add_index "constraints", ["user_id"], :name => "index_constraints_on_user_id"
-
-  create_table "drivers", :force => true do |t|
-    t.string   "name"
-    t.integer  "mission_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_id"
-    t.integer  "clump_id"
-  end
-
-  add_index "drivers", ["clump_id"], :name => "index_drivers_on_clump_id"
-  add_index "drivers", ["mission_id"], :name => "index_drivers_on_mission_id"
-  add_index "drivers", ["user_id"], :name => "index_drivers_on_user_id"
-
-  create_table "facts", :force => true do |t|
-    t.string   "name"
-    t.integer  "mission_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_id"
-    t.integer  "clump_id"
-  end
-
-  add_index "facts", ["clump_id"], :name => "index_facts_on_clump_id"
-  add_index "facts", ["mission_id"], :name => "index_facts_on_mission_id"
-  add_index "facts", ["user_id"], :name => "index_facts_on_user_id"
-
   create_table "missions", :force => true do |t|
     t.string   "name"
     t.text     "blurb"
@@ -98,18 +46,19 @@ ActiveRecord::Schema.define(:version => 20130202213539) do
     t.boolean  "is_public"
   end
 
-  create_table "successes", :force => true do |t|
-    t.string   "name"
+  create_table "stickies", :force => true do |t|
     t.integer  "mission_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "kind"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
     t.integer  "clump_id"
   end
 
-  add_index "successes", ["clump_id"], :name => "index_successes_on_clump_id"
-  add_index "successes", ["mission_id"], :name => "index_successes_on_mission_id"
-  add_index "successes", ["user_id"], :name => "index_successes_on_user_id"
+  add_index "stickies", ["clump_id"], :name => "index_stickies_on_clump_id"
+  add_index "stickies", ["mission_id"], :name => "index_stickies_on_mission_id"
+  add_index "stickies", ["user_id"], :name => "index_stickies_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

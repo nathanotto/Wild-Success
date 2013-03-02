@@ -1,27 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<BR>
+
 
 <! # I know this code should be locked away in a controller somewhere -- too much learning... arggghh !>
+
 <% if params[:add_to_clump] == 'true' then  %>
-    <% @success = Success.find(params[:success_id]) %>
-    <% @success.clump_id = params[:clump_id] %>
-    <% @success.save %>
+    <% @sticky = Sticky.find(params[:sticky_id]) %>
+    <% @sticky.clump_id = params[:clump_id] %>
+    <% @sticky.save %>
 <% end %>
-<% if params[:add_to_clump] == 'false' then %> 
-    <% @success = Success.find(params[:success_id]) %>
-    <% @success.clump_id = nil %>
-    <% @success.save %>
+<% if params[:add_to_clump] == 'remove' then %> 
+    <% @sticky = Sticky.find(params[:sticky_id]) %>
+    <% @sticky.clump_id = nil %>
+    <% @sticky.save %>
 <% end %>
 
 
+<h3>Mission:<%= @mission.name %></h3>
 
-
-<b>Clump<font color = "#7D2252"> <%= params[:kind].capitalize %></font> for Mission: </b><%= @mission.name %>
-
-<BR><BR>
 <%= link_to 'Back to mission', @mission %>
-<BR><BR>
+<p><b>Clump<font color = "#7D2252"> 
+    <%= Sticky.where(:kind => params[:kind], :mission_id => params[:mission_id]).count %>
+    <%= params[:kind].pluralize.capitalize || @sticky.kind.pluralize.capitalize %>:</b></font>  </p>
 <% if params[:edvar] then %>
     <%= render "clumps/edvar_form" %>
 <% else %>
@@ -29,45 +29,42 @@
 <% end %>
 
 
-
-
-
 <table  width="50%" border = "1">
   <col width="500">
   <col width="500">
   <tr>
-    <th>Unclumped <%= params[:kind].capitalize.pluralize %></th>
+    <th>Unclumped <%= params[:kind].pluralize.capitalize || @sticky.kind.pluralize.capitalize %></th>
     <th><%= if params[:clump_id] then Clump.find(params[:clump_id]).name end || "No clump selected" %></th>
   </tr>
+   
   <tr>
     <td><ul>
-        <% @mission.successes.each do |success| %>
-            <% if !(success.clump) then %>
-                <li><% if params[:clump_id] then %>
-                    <%= link_to 'Add', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => params[:clump_id], :success_id => success.id, :add_to_clump => true) %>
-                    <% end %>
-                <%= success.name %></li>
-            <% end %>
-        <% end %>
+        <% @stickies = @mission.stickies.find_all { |sticky| sticky.user_id && sticky.kind == params[:kind] && !(sticky.clump_id) } %>
+     
+        <%= render @stickies, :unclumped => 'truly', :clump_id => params[:clump_id] %>
+ 
         </ul>
     </td><td><ul>
-        <% if params[:clump_id] then %>
-          <% @clump = Clump.find(params[:clump_id]) %>
-          <% $clump_id_param = params[:clump_id] %> <! # hate to do this global var but can't get params to go to controller !>
-          <% @clump.successes.each do |success|    %>
-                <li><%= link_to 'Rem', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => params[:clump_id], :success_id => success.id, :add_to_clump => false) %> | 
-                <%= success.name %></li>
+            <% if params[:clump_id] then %>
+            
+              <% @stickies = @mission.stickies.where("kind = :kind AND clump_id = :clump_id ", { :kind => params[:kind], :clump_id => params[:clump_id] } ) %> 
+              <% else  %> 
+               <% @stickies.clear %>
             <% end %>
-        <% end %>
+            
+            <%= render @stickies, :unclumped => 'not_true', :clump_id => params[:clump_id] %>
+
         </ul>
     </td>
   </tr>
 </table>
 
 <BR><BR>
+<h3>Available clumps:</h3>
 
-<%  clumps = @mission.clumps.find_all { |clump| clump.user_id } %>
+<%  clumps = @mission.clumps.find_all { |clump| clump.user_id && clump.kind == params[:kind] } %>
 <%=  render clumps.reverse %>
+
 
 
 

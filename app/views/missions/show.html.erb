@@ -31,11 +31,11 @@
 <br><br>
 
 <b>Signs and visions of wild success:</b>  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
-<%= render "successes/form" %>
+<%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 
     <ul> 
-     <% successes = @mission.successes.find_all { |success|  success.user_id } %>
-    <% if successes %>
-        <%= render successes.reverse %>
+     <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'success' } %>
+    <% if stickies[0] %>
+        <%= render stickies.reverse %> 
         <% else %>
             <li><font color="b5b5b5">Visions of wild success appear here</font></li>
     <% end %>
@@ -43,46 +43,46 @@
 
 <div id="wrap">
     <div id="left_col">
-        <b>Resources and drivers of success:</b>
-        <%= render "drivers/form" %>
+        <b>Resources and drivers of success:</b>  <%= link_to 'Clump Drivers', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %> 
+        <%= render :partial => "stickies/form" , :locals => { :kind => "driver" } %>
         <ul>
-        <% drivers = @mission.drivers.find_all { |driver|  driver.user_id } %>
-        <% if drivers %>
-              <%= render drivers.reverse %>
+            <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'driver' } %>
+            <% if stickies[0] %>
+                <%= render stickies.reverse %>
             <% else %>
               <li><font color="b5b5b5">Drivers and resources appear here</font></li>
             <% end %>
         </ul>        
         <br>        
-        <b>Facts:</b>
-        <%= render "facts/form" %>
+        <b>Facts:</b> <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
+        <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
         <ul>
-            <% facts = @mission.facts.find_all { |fact|  fact.user_id } %>
-            <% if facts %>
-              <%= render facts.reverse %>
+            <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
+            <% if stickies[0] %>
+                <%= render stickies.reverse %>
             <% else %>
               <li><font color="b5b5b5">Facts appear here</font></li>
             <% end %>
         </ul>
     </div>
     <div id="right_col">
-        <b>Constraints and obstacles to success:</b>
-        <%= render "constraints/form" %>
+        <b>Constraints and obstacles to success:</b>  <%= link_to 'Clump Constraints', mission_clumps_path(:mission_id => @mission.id, :kind => 'constraint') %>
+        <%= render :partial => "stickies/form" , :locals => { :kind => "constraint" } %>
         <ul>
-            <% constraints = @mission.constraints.find_all { |constraint|  constraint.user_id } %>
-            <% if constraints %>
-              <%= render constraints.reverse %>
+            <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'constraint' } %>
+            <% if stickies[0] %>
+                <%= render stickies.reverse %>
             <% else %>
               <li><font color="b5b5b5">Constraints appear here</font></li>
             <% end %>
         </ul>
         <br>
-         <b>Assumptions:</b>
-        <%= render "assumptions/form" %>
+         <b>Assumptions:</b>  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'assumption') %>
+        <%= render :partial => "stickies/form" , :locals => { :kind => "assumption" } %>
         <ul>
-            <% assumptions = @mission.assumptions.find_all { |assumption|  assumption.user_id } %>
-            <% if assumptions %>
-              <%= render assumptions.reverse %>
+            <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'assumption' } %>
+            <% if stickies[0] %>
+                <%= render stickies.reverse %>
             <% else %>
               <li><font color="b5b5b5">Assumptions appear here</font></li>
             <% end %>

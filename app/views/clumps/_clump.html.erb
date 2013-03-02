@@ -1,13 +1,16 @@
 <li><% c = Collaborator.where(:user_id => current_user.id, :mission_id => clump.mission_id).first %>
+    <% clump_count = Sticky.where(:clump_id => clump.id).count %>
     <% if (c.permission == 'creator' || c.permission == 'admin') || clump.user_id == current_user.id then %>
     <%= link_to 'Delete', [clump.mission, clump],
                :confirm => 'Are you sure?',
                :method => :delete %> | 
                <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> | 
-               <%= link_to 'Edit', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id, :edvar => true) %> | <%= clump.name %>
+               <%= link_to 'Edit', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id, :edvar => true) %> | 
+               <%= clump_count %> |
+               <%= clump.name %>
                </li>
     <% else %>
-    <font color = "#FFA500"><%= User.find(clump.user_id).name[0..4] %></font> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> | <%= clump.name %>
+    <font color = "#FFA500"><%= User.find(clump.user_id).name[0..4] %> </font> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> |____ | <%= clump_count %> | <%= clump.name %>
     <% end %>              
                
 

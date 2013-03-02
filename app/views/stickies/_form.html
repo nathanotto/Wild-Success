@@ -1,0 +1,11 @@
+<%= form_for([@mission, @mission.stickies.build]) do |f| %>
+<div class="field">
+    <%= f.text_field :name, :size => 60 %>
+    <%= f.hidden_field :kind, :value => kind %>
+    <class="actions"> 
+        <br><%= f.submit "Add to " + kind.pluralize.capitalize %>
+        </div>
+<% end %>
+
+
+

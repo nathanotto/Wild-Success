@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
     has_many :constraints
     has_many :facts
     has_many :assumptions
+    has_many :stickies
     # has_many :actions
     # has_many :missions, :through => :collaborators
 end

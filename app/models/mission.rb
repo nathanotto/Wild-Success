@@ -6,13 +6,9 @@ class Mission < ActiveRecord::Base
     # :length => { :minimum => 20 }
     
 
-    has_many :successes, :dependent => :destroy
-    has_many :drivers, :dependent => :destroy
-    has_many :constraints, :dependent => :destroy
-    has_many :facts, :dependent => :destroy
-    has_many :assumptions, :dependent => :destroy
     has_many :collaborators
     has_many :clumps
+    has_many :stickies
     #has_many :users, :through => collaborators
     #has_many :essential_tasks, :dependent => :destroy
     #has_many :actions, :dependent => :destroy

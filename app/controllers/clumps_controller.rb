@@ -12,14 +12,21 @@ class ClumpsController < ApplicationController
     def destroy
         @mission = Mission.find(params[:mission_id])
         t_id = @mission.id
-        @clump  = @mission.clumps.find(params[:id])
+        @clump  = Clump.find(params[:id])
         c = Collaborator.where(:user_id => current_user.id, :mission_id => @clump.mission_id).first
-        if (c.permission == 'creator' || c.permission == 'admin') || @clump.user_id == current_user.id then
+         if (c.permission == 'creator' || c.permission == 'admin') || @clump.user_id == current_user.id then
+            # make the stickies un-clumped from this clump about to be destroyed
+            @stickies = Sticky.where(:clump_id => @clump.id)
+            if @stickies then @stickies.each do  |sticky|
+                sticky.clump_id = nil
+                @sticky = sticky
+                @sticky.save
+            end end
             @clump.destroy
             else
-            flash[:notice] = "Can't delete unless it's yours or you have admin permission."
+             flash[:notice] = "Can't delete unless it's yours or you have admin permission."
         end
-        redirect_to mission_clumps_path(:mission_id => t_id, :kind => $kind)
+        redirect_to mission_clumps_path(:mission_id => t_id, :kind => @clump.kind)
     end
     
     def index

@@ -1,0 +1,9 @@
+<li>
+
+<% stickies.each do |sticky| %>
+<% if  clump_id then %>
+                    <%= link_to 'Add', mission_clumps_path(:mission_id => @mission.id,  :clump_id =>  clump_id, :sticky_id => sticky.id, :add_to_clump => true) %>
+                    <% end %>
+    <% end %>
+                <%= sticky.name %>
+</li>
