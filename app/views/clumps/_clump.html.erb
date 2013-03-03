@@ -4,8 +4,8 @@
     <%= link_to 'Delete', [clump.mission, clump],
                :confirm => 'Are you sure?',
                :method => :delete %> | 
-               <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> | 
-               <%= link_to 'Edit', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id, :edvar => true) %> | 
+               <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => params[:kind], :clump_id => clump.id) %> | 
+               <%= link_to 'Edit', mission_clumps_path(:mission_id => @mission.id, :kind => params[:kind], :clump_id => clump.id, :edvar => true) %> | 
                <%= clump_count %> |
                <%= clump.name %>
                </li>

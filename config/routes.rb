@@ -16,8 +16,7 @@ Gsd::Application.routes.draw do
       resources :collaborators
       resources :clumps
       resources :stickies
-      # resources :essential_tasks
-      # resources :actions
+      resources :actions
     end
 
     put  "missions/:mission_id/clumps" => 'clumps#update'

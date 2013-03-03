@@ -11,6 +11,6 @@ class Mission < ActiveRecord::Base
     has_many :stickies
     #has_many :users, :through => collaborators
     #has_many :essential_tasks, :dependent => :destroy
-    #has_many :actions, :dependent => :destroy
+    has_many :actions, :dependent => :destroy
     # belongs_to :users
 end

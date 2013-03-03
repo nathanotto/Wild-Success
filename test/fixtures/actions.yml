@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  mission: 
+  user: 
+  name: MyString
+  committed_user: 1
+  deadline: 2013-03-02
+  priority: 1
+
+two:
+  mission: 
+  user: 
+  name: MyString
+  committed_user: 1
+  deadline: 2013-03-02
+  priority: 1
