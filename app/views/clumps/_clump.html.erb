@@ -10,7 +10,7 @@
                <%= clump.name %>
                </li>
     <% else %>
-    <font color = "#FFA500"><%= User.find(clump.user_id).name[0..4] %> </font> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => $kind, :clump_id => clump.id) %> |____ | <%= clump_count %> | <%= clump.name %>
+    <font color = "#FFA500"><%= User.find(clump.user_id).name[0..4] %> </font> | <%= link_to 'Use', mission_clumps_path(:mission_id => @mission.id, :kind => params[:kind], :clump_id => clump.id) %> |____ | <%= clump_count %> | <%= clump.name %>
     <% end %>              
                
 

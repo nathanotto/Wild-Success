@@ -13,7 +13,8 @@ class StickiesController < ApplicationController
         c = Collaborator.where(:user_id => current_user.id, :mission_id => @sticky.mission_id).first
         if (c.permission == 'creator' || c.permission == 'admin') || @sticky.user_id == current_user.id then
             @sticky.destroy
-            else
+            
+        else
             flash[:notice] = "Can't delete unless it's yours or you have admin permission."
         end
         redirect_to mission_path(@mission)
@@ -24,6 +25,7 @@ class StickiesController < ApplicationController
          @sticky = Sticky.find(params[:sticky_id]) 
          @sticky.clump_id = params[:clump_id] 
          @sticky.save 
+         end
          else
             if params[:add_to_clump] == 'remove' then 
             @sticky = @sticky.find(params[:sticky_id]) 

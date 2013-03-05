@@ -83,8 +83,8 @@
             <% end %>
             </div>
        <BR><BR>
-         <b>Assumptions:</b>  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %>
-        <%= render :partial => "stickies/form" , :locals => { :kind => "assumption" } %>
+         <b>Assumptions:</b>  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'assumption') %>
+        <%= render :partial => "stickies/form" , :locals => { :kind => 'assumption' } %>
     
             <% stickies = @mission.stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'assumption' } %>
             <div style="margin-left: 2em;">

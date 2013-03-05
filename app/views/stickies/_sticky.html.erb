@@ -23,7 +23,7 @@
                :confirm => 'Are you sure?',
                :method => :delete %> | <%= sticky.name %></li>
       <% else %>
-        <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..4] %></font>: <%= sticky.name %>
+        <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
     <% end %>   
  <% end %>
 </td></tr>
