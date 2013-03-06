@@ -1,4 +1,7 @@
 
+<% if (params[:connect_sticky_to_coaction]) && !(Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(params[:sticky_id])) then  Coaction.find(params[:coaction_id]).stickies << Sticky.find(params[:sticky_id]) end %>
+
+
 <p>Plan courses of action for: <%= @mission.name %></p>
 <p><%= link_to 'Back to mission', mission_path(@mission) %> Put progress bar here for % of connected stickies.</p>
 <p> use local variable to set mode of sticky rendering; make sticky names links that connect them to the current COA; put a number of COA's for each sticky next to it; color-code un-accounted COA's = zero COA's connected. </p>
@@ -8,6 +11,14 @@
 <p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
    <% @coactions.each do |coaction| %>
     <% if !(params[:coaction_id]) || !(coaction.id == params[:coaction_id].to_i) then %> 
+      <% c = Collaborator.where(:user_id => current_user.id, :mission_id => coaction.mission_id).first %>
+      <% if (c.permission == 'creator' || c.permission == 'admin') || coaction.user_id == current_user.id then %>
+           <%= link_to 'del', [coaction.mission, coaction],
+               :confirm => 'Are you sure?',
+               :method => :delete %>
+       <% else %>
+         <font color = "#FFA500"><%= User.find(coaction.user_id).name[0..2] %></font>
+       <% end %> |
        <%= link_to "#{coaction.name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => coaction.id)%><br>
       <% end %>
     <% end %>
@@ -21,6 +32,7 @@
         <% rows = [success.count, driver.count, constraint.count, fact.count, assumption.count].max %>
 
 
+If the sticky is allocated, make it green, show the count. Link to the current Coaction.
 <div id="tableContainer" class="tableContainer">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
 <thead class="fixedHeader">
@@ -43,7 +55,19 @@
             <% i = 0 %>
             <% while i < rows do %>
               <tr>
-                <td><%= success[i].name rescue nil     %></td>
+                <td>
+                  <% if success[i] then %>
+                    <% if !(success[i].coactions.empty?) then %>
+                        <font color="#088A29">
+                        <%= success[i].coactions.count %> | </font>
+                    <% end %>
+                    <% if params[:coaction_id] then %>
+                            <%= link_to "#{success[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => success[i].id, :connect_sticky_to_coaction => true) %>
+                        <% else %>
+                          <%= success[i].name %>
+                        <% end %>
+                   <% end %> 
+                </td>
                 <td><%= driver[i].name  rescue nil     %></td>
                 <td><%= constraint[i].name rescue nil  %></td>
                 <td><%= fact[i].name      rescue nil   %></td>
@@ -53,7 +77,13 @@
             <% end %>
         <% end %>
   </tr>
+  </table>
 </div>
+
+
+
+
+
 
 
 

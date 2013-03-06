@@ -2,6 +2,6 @@ class Sticky < ActiveRecord::Base
   belongs_to :mission
   belongs_to :user
   belongs_to :clump
-  belongs_to :coaction
-    attr_accessible :name, :user_id, :mission_id, :kind
+  has_and_belongs_to_many :coactions
+    attr_accessible :name, :user_id, :mission_id, :kind, :coaction_id
 end
