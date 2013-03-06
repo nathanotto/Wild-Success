@@ -17,6 +17,7 @@
  <% @missions.each do |mission| %>
   <tr>
     <% @collaborator = Collaborator.where( :mission_id => mission.id, :user_id => current_user.id ) %>
+    <td><%= if mission.is_public then 'Pub|' else '   ' end %></td>
     <td><%= @collaborator.first.permission.capitalize %></td>
     <td><%= if @collaborator.first.permission != 'viewer' then link_to 'Plan', mission end %> | </td>
     <td><%= mission.name[0..30] %></td>

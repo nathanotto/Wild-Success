@@ -1,18 +1,21 @@
 <p id="notice"><%= notice %></p>
-
+<%= link_to 'See all missions', missions_path %>
 <p>
   <% c = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id).first %>
-  <% if @mission.is_public %>
-    <b>Public </b>
-  <% else %>
-  <font color = "#00800"><%= c.permission.capitalize %></font>
-  <% end %>
-  <b>Mission:</b>
+    <b>Mission:</b>
   <%= @mission.name %>
 </p>
-<p>Put link to Add Collaborators Here | 
+<p>
+<% if @mission.is_public %>
+    <b>Public </b>
+  <% end %>
+  <font color = "#00800"><%= c.permission.capitalize %></font>
+ 
 
- Number of collaborators: <%= Collaborator.where(:mission_id => @mission.id).count %></p>
+<%= link_to "Add collaborators", users_path %> | Currently
+
+<%= if Collaborator.where(:mission_id => @mission.id).count > 1 then Collaborator.where(:mission_id => @mission.id).count else 'just you' end %>. <%= link_to "Courses of action", mission_coactions_path(@mission) %>
+</p>
 
 <p>
   <table>
@@ -27,8 +30,8 @@
 <% if c.permission == ('creator' || 'admin') then %>
     <%= link_to 'Edit', edit_mission_path(@mission) %> |
   <% end %>
-<%= link_to 'All Missions', missions_path %>
-<br><br>
+
+
 
 <b>Signs and visions of wild success:</b>  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
 <%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 

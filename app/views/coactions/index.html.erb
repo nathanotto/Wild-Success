@@ -1,0 +1,59 @@
+
+<p>Plan courses of action for: <%= @mission.name %></p>
+<p><%= link_to 'Back to mission', mission_path(@mission) %> Put progress bar here for % of connected stickies.</p>
+<p> use local variable to set mode of sticky rendering; make sticky names links that connect them to the current COA; put a number of COA's for each sticky next to it; color-code un-accounted COA's = zero COA's connected. </p>
+
+<%= render :partial => "coactions/form" %> 
+<p> <%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %> </p>
+<p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
+   <% @coactions.each do |coaction| %>
+    <% if !(params[:coaction_id]) || !(coaction.id == params[:coaction_id].to_i) then %> 
+       <%= link_to "#{coaction.name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => coaction.id)%><br>
+      <% end %>
+    <% end %>
+       </p>
+
+        <% success    = Sticky.where(:mission_id => @mission.id, :kind => 'success') %>
+        <% driver     = Sticky.where(:mission_id => @mission.id, :kind => 'driver') %>
+        <% constraint = Sticky.where(:mission_id => @mission.id, :kind => 'constraint') %>
+        <% fact       = Sticky.where(:mission_id => @mission.id, :kind => 'fact') %>
+        <% assumption = Sticky.where(:mission_id => @mission.id, :kind => 'assumption') %>
+        <% rows = [success.count, driver.count, constraint.count, fact.count, assumption.count].max %>
+
+
+<div id="tableContainer" class="tableContainer">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
+<thead class="fixedHeader">
+<tr>
+  <th><a href="#">Successes</a></th>
+  <th><a href="#">Drivers</a></th>
+  <th><a href="#">Constraints</a></th>
+  <th><a href="#">Facts</a></th>
+  <th><a href="#">Assumptions</a></th>
+</tr>
+</thead>
+<tbody class="scrollContent">
+    <% if rows < 1 then %>
+        <tr>
+        <% 5.times do %>
+            <td>No content</td>
+            <% end %>
+        </tr>
+        <% else %>
+            <% i = 0 %>
+            <% while i < rows do %>
+              <tr>
+                <td><%= success[i].name rescue nil     %></td>
+                <td><%= driver[i].name  rescue nil     %></td>
+                <td><%= constraint[i].name rescue nil  %></td>
+                <td><%= fact[i].name      rescue nil   %></td>
+                <td><%= assumption[i].name rescue nil  %></td>
+              </tr>
+              <% i += 1 %>
+            <% end %>
+        <% end %>
+  </tr>
+</div>
+
+
+

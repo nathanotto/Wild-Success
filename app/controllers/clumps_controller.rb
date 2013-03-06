@@ -1,9 +1,8 @@
 class ClumpsController < ApplicationController
-    def create # couldn't pass the :kind param, or find documentation, trying deprecated method of global variabe
+    def create 
         @mission = Mission.find(params[:mission_id])
         @clump = @mission.clumps.new(params[:clump])
         @clump.user_id = current_user.id
-        # @clump.kind = params[:kind] # BUG want to factor this into a local variable...
         @clump.save
 
         redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => params[:clump][:kind], :clump_id => @clump.id)
@@ -29,7 +28,7 @@ class ClumpsController < ApplicationController
         redirect_to mission_clumps_path(:mission_id => t_id, :kind => @clump.kind)
     end
     
-    def clear
+    def clear #haven't called this yet...
         @mission = Mission.find(params[:mission_id])
         t_id = @mission.id
         @clump  = Clump.find(params[:id])
@@ -59,7 +58,7 @@ class ClumpsController < ApplicationController
     
     def update
         @mission = Mission.find(params[:mission_id])
-        @clump = Clump.find(params[:clump][:id]) # want to use (params[:clump_id]) but doesn't pass through? hate to use global variable but can't find another way
+        @clump = Clump.find(params[:clump][:id]) 
         @clump.name = params[:clump][:name]
         @clump.save
         redirect_to mission_clumps_path(:mission_id => @mission.id, :kind => @clump.kind, :clump_id => @clump.id)

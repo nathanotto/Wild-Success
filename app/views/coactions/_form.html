@@ -1,0 +1,12 @@
+<%= form_for([@mission, @mission.coactions.build]) do |f| %>
+<div class="field">
+    <%= f.text_field :name, :size => 60, :value => 'New couse of action here'  %>
+    
+    <class="actions">
+        <br><%= f.submit "New course of action" %>
+        
+</div>
+<% end %>
+
+
+

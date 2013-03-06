@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130209235430) do
+ActiveRecord::Schema.define(:version => 20130306041830) do
 
   create_table "clumps", :force => true do |t|
     t.integer  "user_id"
@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(:version => 20130209235430) do
 
   add_index "clumps", ["mission_id"], :name => "index_clumps_on_mission_id"
   add_index "clumps", ["user_id"], :name => "index_clumps_on_user_id"
+
+  create_table "coactions", :force => true do |t|
+    t.integer  "mission_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.integer  "committed_user"
+    t.date     "deadline"
+    t.integer  "priority"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "coactions", ["mission_id"], :name => "index_coactions_on_mission_id"
+  add_index "coactions", ["user_id"], :name => "index_coactions_on_user_id"
 
   create_table "collaborators", :force => true do |t|
     t.integer  "mission_id"
@@ -51,12 +65,16 @@ ActiveRecord::Schema.define(:version => 20130209235430) do
     t.integer  "user_id"
     t.string   "name"
     t.string   "kind"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "clump_id"
+    t.integer  "action_id"
+    t.integer  "coaction_id"
   end
 
+  add_index "stickies", ["action_id"], :name => "index_stickies_on_action_id"
   add_index "stickies", ["clump_id"], :name => "index_stickies_on_clump_id"
+  add_index "stickies", ["coaction_id"], :name => "index_stickies_on_coaction_id"
   add_index "stickies", ["mission_id"], :name => "index_stickies_on_mission_id"
   add_index "stickies", ["user_id"], :name => "index_stickies_on_user_id"
 

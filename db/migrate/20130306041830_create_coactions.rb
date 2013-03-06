@@ -1,6 +1,6 @@
-class CreateActions < ActiveRecord::Migration
+class CreateCoactions < ActiveRecord::Migration
   def change
-    create_table :actions do |t|
+    create_table :coactions do |t|
       t.references :mission
       t.references :user
       t.string :name
@@ -10,7 +10,7 @@ class CreateActions < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :actions, :mission_id
-    add_index :actions, :user_id
+    add_index :coactions, :mission_id
+    add_index :coactions, :user_id
   end
 end
