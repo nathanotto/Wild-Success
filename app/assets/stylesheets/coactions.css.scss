@@ -1,3 +1,6 @@
+
+/* SCROLLING TABLE CSS */
+
 // Place all the styles related to the actions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -184,3 +187,34 @@ html>body tbody.scrollContent td + td +td + td {
 html>body tbody.scrollContent td + td + td + td + td  {
 	width: 236px
 }
+
+/* END SCROLLING TABLE CSS */
+
+
+/* PROGRESS BAR CSS */
+
+.meter-wrap{
+    position: relative;
+}
+
+.meter-wrap, .meter-value, .meter-text {
+    /* The width and height of your image */
+    width: 155px; height: 30px;
+}
+
+.meter-wrap, .meter-value {
+    background: #bdbdbd url(http://benogle.com/images/meter-outline.png) top left no-repeat;
+}
+
+.meter-text {
+    position: absolute;
+    top:0; left:0;
+
+    padding-top: 5px;
+
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+/* END PROGRESS BAR CSS */

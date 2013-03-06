@@ -20,6 +20,7 @@ class CoactionsController < ApplicationController
         c = Collaborator.where(:user_id => current_user.id, :mission_id => @mission.id).first
         if (c.permission == 'creator' || c.permission == 'admin') || @coaction.user_id == current_user.id then
             # what about cleaing up the cross table? does it do it automatically?
+            Coaction.find(params[:id]).stickies.delete(Sticky.where(:coaction_id => params[:id]))
             @coaction.destroy
             else
             flash[:notice] = "Can't delete unless it's yours or you have admin permission."

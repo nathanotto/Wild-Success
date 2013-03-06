@@ -1,13 +1,36 @@
 
-<% if (params[:connect_sticky_to_coaction]) && !(Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(params[:sticky_id])) then  Coaction.find(params[:coaction_id]).stickies << Sticky.find(params[:sticky_id]) end %>
+<% if (params[:connect_sticky_to_coaction] == 'connect') then  %>
+  <% Coaction.find(params[:coaction_id]).stickies << Sticky.find(params[:sticky_id]) %>
+<% else %>
+   <% if (params[:connect_sticky_to_coaction]) == 'disconnect' then %>
+   <% Coaction.find(params[:coaction_id]).stickies.delete(Sticky.find(params[:sticky_id])) %>
+ <% end %>
+<% end %>
+
 
 
 <p>Plan courses of action for: <%= @mission.name %></p>
-<p><%= link_to 'Back to mission', mission_path(@mission) %> Put progress bar here for % of connected stickies.</p>
-<p> use local variable to set mode of sticky rendering; make sticky names links that connect them to the current COA; put a number of COA's for each sticky next to it; color-code un-accounted COA's = zero COA's connected. </p>
+<p><%= link_to 'Back to mission', mission_path(@mission) %> 
+
+<% n = 0 %>
+<% @mission.stickies.each do |sticky| %>
+    <% if !(sticky.coactions.empty?) then (n += 1) end %>
+  <% end %>
+ <% if n == 0 then percent_done = 0 else percent_done = (n.to_f / @mission.stickies.count.to_f * 100).to_i end %>
+
+<div class="meter-wrap">
+    <% prg_str = '<div class="meter-value" style="background-color: #0a0; width: ' + percent_done.to_s + '%;">' %>
+    <%= prg_str.html_safe %>
+        <div class="meter-text">
+            <%= "#{percent_done}% done" %>
+        </div>
+    </div>
+</div>
+
+</p>
 
 <%= render :partial => "coactions/form" %> 
-<p> <%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %> </p>
+<p> Selecting for: <b><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %></b> </p>
 <p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
    <% @coactions.each do |coaction| %>
     <% if !(params[:coaction_id]) || !(coaction.id == params[:coaction_id].to_i) then %> 
@@ -32,7 +55,7 @@
         <% rows = [success.count, driver.count, constraint.count, fact.count, assumption.count].max %>
 
 
-If the sticky is allocated, make it green, show the count. Link to the current Coaction.
+Put links from success to a view of the successes, drivers, etc. Put link to toggle clumps by column?
 <div id="tableContainer" class="tableContainer">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
 <thead class="fixedHeader">
@@ -57,21 +80,113 @@ If the sticky is allocated, make it green, show the count. Link to the current C
               <tr>
                 <td>
                   <% if success[i] then %>
+                    <% connect_action = 'connect' %>
                     <% if !(success[i].coactions.empty?) then %>
                         <font color="#088A29">
-                        <%= success[i].coactions.count %> | </font>
+                        <%= success[i].coactions.count %></font>  
+                        <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(success[i].id))) then %>
+                              <font color = "red">&bull;</font>
+                              <% connect_action = 'disconnect' %>
+                        <%  else %>
+                            |
+                        <% end %>
+                    <% else %>
+                      <font color="red" >0</font> |
                     <% end %>
                     <% if params[:coaction_id] then %>
-                            <%= link_to "#{success[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => success[i].id, :connect_sticky_to_coaction => true) %>
+                            <%= link_to "#{success[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => success[i].id, :connect_sticky_to_coaction => connect_action) %>
                         <% else %>
                           <%= success[i].name %>
                         <% end %>
                    <% end %> 
                 </td>
-                <td><%= driver[i].name  rescue nil     %></td>
-                <td><%= constraint[i].name rescue nil  %></td>
-                <td><%= fact[i].name      rescue nil   %></td>
-                <td><%= assumption[i].name rescue nil  %></td>
+                <td>                  
+                  <% if driver[i] then %>
+                    <% connect_action = 'connect' %>
+                    <% if !(driver[i].coactions.empty?) then %>
+                        <font color="#088A29">
+                        <%= driver[i].coactions.count %></font>  
+                        <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(driver[i].id))) then %>
+                              <font color = "red">&bull;</font>
+                              <% connect_action = 'disconnect' %>
+                        <%  else %>
+                            |
+                        <% end %>
+                    <% else %>
+                      <font color="red" >0</font> |
+                    <% end %>
+                    <% if params[:coaction_id] then %>
+                            <%= link_to "#{driver[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => driver[i].id, :connect_sticky_to_coaction => connect_action) %>
+                        <% else %>
+                          <%= driver[i].name %>
+                        <% end %>
+                   <% end %> 
+                </td>
+                <td>                  
+                  <% if constraint[i] then %>
+                    <% connect_action = 'connect' %>
+                    <% if !(constraint[i].coactions.empty?) then %>
+                        <font color="#088A29">
+                        <%= constraint[i].coactions.count %></font>  
+                        <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(constraint[i].id))) then %>
+                              <font color = "red">&bull;</font>
+                              <% connect_action = 'disconnect' %>
+                        <%  else %>
+                            |
+                        <% end %>
+                    <% else %>
+                      <font color="red" >0</font> |
+                    <% end %>
+                    <% if params[:coaction_id] then %>
+                            <%= link_to "#{constraint[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => constraint[i].id, :connect_sticky_to_coaction => connect_action) %>
+                        <% else %>
+                          <%= constraint[i].name %>
+                        <% end %>
+                   <% end %> 
+                </td>
+                <td>                  
+                  <% if fact[i] then %>
+                    <% connect_action = 'connect' %>
+                    <% if !(fact[i].coactions.empty?) then %>
+                        <font color="#088A29">
+                        <%= fact[i].coactions.count %></font>  
+                        <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(fact[i].id))) then %>
+                              <font color = "red">&bull;</font>
+                              <% connect_action = 'disconnect' %>
+                        <%  else %>
+                            |
+                        <% end %>
+                    <% else %>
+                      <font color="red" >0</font> |
+                    <% end %>
+                    <% if params[:coaction_id] then %>
+                            <%= link_to "#{fact[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => fact[i].id, :connect_sticky_to_coaction => connect_action) %>
+                        <% else %>
+                          <%= fact[i].name %>
+                        <% end %>
+                   <% end %> 
+                <td>                  
+                  <% if assumption[i] then %>
+                    <% connect_action = 'connect' %>
+                    <% if !(assumption[i].coactions.empty?) then %>
+                        <font color="#088A29">
+                        <%= assumption[i].coactions.count %></font>  
+                        <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(assumption[i].id))) then %>
+                              <font color = "red">&bull;</font>
+                              <% connect_action = 'disconnect' %>
+                        <%  else %>
+                            |
+                        <% end %>
+                    <% else %>
+                      <font color="red" >0</font> |
+                    <% end %>
+                    <% if params[:coaction_id] then %>
+                            <%= link_to "#{assumption[i].name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => params[:coaction_id], :sticky_id => assumption[i].id, :connect_sticky_to_coaction => connect_action) %>
+                        <% else %>
+                          <%= assumption[i].name %>
+                        <% end %>
+                   <% end %> 
+                </td>
               </tr>
               <% i += 1 %>
             <% end %>

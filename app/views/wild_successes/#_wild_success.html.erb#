@@ -1,7 +1,0 @@
-<% @mission.wild_successes.each do |wild_success| %>
-  <p>
-    <b>Here's one:</b>
-    <%= wild_success.success %> 
-  </p>
- 
-<% end %
