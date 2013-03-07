@@ -41,8 +41,11 @@ class MissionsController < ApplicationController
   end
     
   # GET /missions/plan  need to add route for /missions/plan
-    def plan
+    def finish
         @mission = Mission.find(params[:id])
+        @stickies = @mission.stickies
+        @clumps = @mission.clumps
+        @coactions = @mission.coactions
         
         respond_to do |format|
             format.html # show.html.erb

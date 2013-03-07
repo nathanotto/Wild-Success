@@ -6,11 +6,9 @@
    <% Coaction.find(params[:coaction_id]).stickies.delete(Sticky.find(params[:sticky_id])) %>
  <% end %>
 <% end %>
-
-
+<p><%= link_to 'Back to mission', @mission %></p>
 
 <p>Plan courses of action for: <%= @mission.name %></p>
-<p><%= link_to 'Back to mission', mission_path(@mission) %> 
 
 <% n = 0 %>
 <% @mission.stickies.each do |sticky| %>
@@ -27,7 +25,7 @@
     </div>
 </div>
 
-</p>
+<p><%= link_to 'See the finished plan', "/missions/finish/#{@mission.id}" %></p>
 
 <%= render :partial => "coactions/form" %> 
 <p> Selecting for: <b><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %></b> </p>

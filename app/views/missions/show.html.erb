@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
-<%= link_to 'See all missions', missions_path %>
-<%= link_to 'See the finished plan', 
+<%= link_to 'See all missions', missions_path %><br>
+<%= link_to 'See the finished plan', "finish/#{@mission.id}" %>
 <p>
   <% c = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id).first %>
     <b>Mission:</b>

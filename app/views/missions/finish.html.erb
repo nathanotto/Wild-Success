@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p><%= link_to 'Back to mission planning', @mission %><br><%= link_to "Back to courses of action", mission_coactions_path(@mission) %></p>
+
+<h2>Mission: <%= @mission.name %> </h2>
+Blurb: <%= @mission.blurb %>
+
+<% @coactions = @coactions.sort_by { |a| a.stickies.count } %>
+<% unaccounted_factors = 0 %>
+<% unaccounted_foo = [] %>
+<% @stickies.each do |sticky| %>
+    <% if sticky.coactions.count == 0 then unaccounted_factors += 1  %>
+      <% unaccounted_foo << sticky %>
+    <% end %>
+ <% end %>
+<% if unaccounted_factors > 0 then %>
+        <p><font color="red"> There are <%= unaccounted_factors %> factors unaccounted for. </font></p>
+        <blockquote><ol>
+        <% unaccounted_foo.each do |a| %>
+         <li><%= a.kind[0..3] %> | <%= a.name %></li>
+         <% end %>
+        </ol></blockquote>
+    <% end %>
+<p><u>Courses of action and their factors (factors can be repeated):</u> </p>
+<% @coactions.reverse.each do |coaction| %>
+    <font color="green"><%= coaction.stickies.count %> factors: </font>
+    <%= coaction.name %><br><blockquote>
+    <% @stickies = coaction.stickies  %>
+    <% if !@stickies.empty? then %>
+       <% @stickies = @stickies.sort_by { |a| a.kind } %>
+       <ol><%= render :partial => "sticky_finish", :collection => @stickies  %></ol>
+    <% end %>
+    </blockquote>
+    <% end %>
+
+
+    
