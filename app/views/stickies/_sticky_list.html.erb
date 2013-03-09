@@ -1,5 +1,6 @@
 <%= javascript_include_tag "application" %>
 <% stickies = stickies.sort_by { |s| s.position } %>
+<% if reorder == kind then %>
   <ul id="stickies" data-update-url="/missions/<%= @mission.id %>/stickies/sort">
     <% stickies.each do |sticky| %>
      <%= content_tag_for :li, sticky do %>
@@ -17,6 +18,24 @@
   <% if stickies.count <=0 then %>
             ><font color="b5b5b5">Visions of <%= params[:kind]%> appear here</font>
     <% end %>
+
+  <% else %>
+    <ul>
+    <% stickies.each do |sticky| %>
+    <li>
+    <% if (@collaborator.permission == ('creator' ||  'admin')) || sticky.user_id == current_user.id then %>
+       <%= link_to 'del', [sticky.mission, sticky],
+               :confirm => 'Are you sure?',
+               :method => :delete %> | 
+               <%= sticky.name %>
+      <% else %>
+        <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
+    <% end %> 
+    </li>
+   <% end %>
+   <% end %>
   </ul>
+
+    
 
 

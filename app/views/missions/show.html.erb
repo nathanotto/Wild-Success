@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<%= if !params[:reorder] then reorder = 'none' end %>
 <%= link_to 'See all missions', missions_path %><br>
 <%= link_to 'See the finished plan', "finish/#{@mission.id}" %>
 <p>
@@ -14,7 +15,9 @@
 
 <%= link_to "Add collaborators", users_path %> | Currently
 
-<%= if Collaborator.where(:mission_id => @mission.id).count > 1 then Collaborator.where(:mission_id => @mission.id).count else 'just you' end %>. <%= link_to "Courses of action", mission_coactions_path(@mission) %>
+<%= if Collaborator.where(:mission_id => @mission.id).count > 1 then 
+       Collaborator.where(:mission_id => @mission.id).count 
+       else 'just you' end %>. <%= link_to "Courses of action", mission_coactions_path(@mission) %>
 </p>
 
 <p>
@@ -24,74 +27,58 @@
   <td> <b>Blurb: </b><%= @mission.blurb %></td>
   </tr>
   </table>
-  
 </p>
 
 <% if @collaborator.permission == ('creator' || 'admin') then %>
     <%= link_to 'Edit', edit_mission_path(@mission) %> |
 <% end %>
 
-
-<b>Signs and visions of wild success:</b>  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
-<%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 
-
-<% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'success' } %>
-
-<%= render :partial => "stickies/sticky_list", :locals => {:kind => 'success', :stickies => stickies } %><p></p>
+<b>Signs and visions of wild success:</b>
+  <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
+  <%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 
+  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'success' } %>
+  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'success', 
+                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
+  <%= link_to 'Reorder successes', mission_path(@mission, :reorder => 'success') %>
 
 <BR><BR>
-<div id="wrap">
-    <div id="left_col">
-        <b>Resources and drivers of success:</b>  <%= link_to 'Clump Drivers', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %> 
-        <%= render :partial => "stickies/form" , :locals => { :kind => "driver" } %>
+<b>Resources and drivers of success:</b>  
+  <%= link_to 'Clump Drivers', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %> 
+  <%= render :partial => "stickies/form" , :locals => { :kind => "driver" } %>
+  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'driver' } %>
+  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'driver', 
+                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
+  <%= link_to 'Reorder drivers', mission_path(@mission, :reorder => 'driver') %>
       
-            <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'driver' } %>
-            <div style="margin-left: 2em;">
-            <% if stickies.count > 0 %>
-                <%= render stickies.reverse %>
-            <% else %>
-              ><font color="b5b5b5">Drivers and resources appear here</font>
-            <% end %>
-            </div>
-      <BR><BR>      
-        <b>Facts:</b> <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
-        <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
-       
-            <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
-            <div style="margin-left: 2em;">
-            <% if stickies.count > 0 %>
-                <%= render stickies.reverse %>
-            <% else %>
-              ><font color="b5b5b5">Facts appear here</font>
-            <% end %>
-            </div>
-       <BR><BR>
-    </div>
-    <div id="right_col">
-        <b>Constraints and obstacles to success:</b>  <%= link_to 'Clump Constraints', mission_clumps_path(:mission_id => @mission.id, :kind => 'constraint') %>
-        <%= render :partial => "stickies/form" , :locals => { :kind => "constraint" } %>
+<BR><BR>      
+<b>Facts:</b> 
+  <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
+  <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
+  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
+  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'fact', 
+                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
+  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact') %>
+  
+<BR><BR>      
+<b>Constraints and obstacles to success:</b>  
+  <%= link_to 'Clump Constraints', mission_clumps_path(:mission_id => @mission.id, :kind => 'constraint') %>
+  <%= render :partial => "stickies/form" , :locals => { :kind => "constraint" } %>
+  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'constraint' } %>
+  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'constraint', 
+                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
+  <%= link_to 'Reorder constraints', mission_path(@mission, :reorder => 'constraint') %>
+      
+<BR><BR>
+<b>Assumptions:</b>  
+  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'assumption') %>
+  <%= render :partial => "stickies/form" , :locals => { :kind => 'assumption' } %>
+  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'assumption' } %>
+  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'assumption', 
+                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
+  <%= link_to 'Reorder assumptions', mission_path(@mission, :reorder => 'assumption') %>
+      
 
-            <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'constraint' } %>
-            <div style="margin-left: 2em;">
-            <% if stickies.count > 0 %>
-                <%= render stickies.reverse %>
-            <% else %>
-              ><font color="b5b5b5">Constraints appear here</font></li>
-            <% end %>
-            </div>
-       <BR><BR>
-         <b>Assumptions:</b>  <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'assumption') %>
-        <%= render :partial => "stickies/form" , :locals => { :kind => 'assumption' } %>
-    
-            <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'assumption' } %>
-            <div style="margin-left: 2em;">
-            <% if stickies.count > 0 %>
-                <%= render stickies.reverse %>
-            <% else %>
-            ><font color="b5b5b5">Assumptions appear here</font></li>
-            <% end %>
-            </div>
-       <BR><BR>
-    </div>
-</div>
+
+
+
 
