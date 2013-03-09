@@ -5,7 +5,7 @@ class StickiesController < ApplicationController
         @sticky.user_id = current_user.id
         @sticky.position = 0
         @sticky.save 
-        redirect_to mission_path(@mission)
+        redirect_to mission_path(@mission) + '#' + @sticky.kind.pluralize
     end
     
     def destroy

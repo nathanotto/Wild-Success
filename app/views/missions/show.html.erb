@@ -1,81 +1,119 @@
 <p id="notice"><%= notice %></p>
-<%= if !params[:reorder] then reorder = 'none' end %>
-<%= link_to 'See all missions', missions_path %><br>
-<%= link_to 'See the finished plan', "finish/#{@mission.id}" %>
-<p>
-    <b>Mission:</b>
-  <%= @mission.name %>
-</p>
-<p>
-<% if @mission.is_public %>
-    <b>Public </b>
-  <% end %>
-  <font color = "#00800"><%= @collaborator.permission.capitalize %></font>
- 
-
-<%= link_to "Add collaborators", users_path %> | Currently
-
-<%= if Collaborator.where(:mission_id => @mission.id).count > 1 then 
-       Collaborator.where(:mission_id => @mission.id).count 
-       else 'just you' end %>. <%= link_to "Courses of action", mission_coactions_path(@mission) %>
-</p>
-
-<p>
-  <table>
-  <col width="800">
-  <tr>
-  <td> <b>Blurb: </b><%= @mission.blurb %></td>
-  </tr>
-  </table>
-</p>
-
-<% if @collaborator.permission == ('creator' || 'admin') then %>
-    <%= link_to 'Edit', edit_mission_path(@mission) %> |
+<% if !params[:reorder] then reorder = 'none' end %>
+<% n = 0 %>
+<% @mission.stickies.each do |sticky| %>
+      <% if !(sticky.coactions.empty?) then (n += 1) end %>
 <% end %>
 
-<b>Signs and visions of wild success:</b>
+
+<style>
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
+td
+{
+padding:10px;
+}
+</style>
+
+<table width="100%">
+  <col width="200">
+  <col width="200">
+  <tr>
+  <td align="left" valign="top">
+   <%= link_to 'See all missions', missions_path %><br><br>
+   <b>Mission: </b><%= @mission.name %>
+   <br><b>Description: </b><%= @mission.blurb %>
+   <% if @collaborator.permission == ('creator' || 'admin') then %>
+    <%= link_to 'Edit', edit_mission_path(@mission) %> |
+   <% end %>
+
+   <br><%= if @mission.is_public then 'Public' end %>
+   <br>My role: <font color = "#00800"><%= @collaborator.permission.capitalize %></font>
+   <%= link_to "Add collaborators", users_path %><br>
+   Mission planning stats:
+   <blockquote>
+   Collaborators: 
+   <%= if Collaborator.where(:mission_id => @mission.id).count > 1 then 
+       Collaborator.where(:mission_id => @mission.id).count
+       else 'just you' end %>. <br>
+    Courses of action: <%= @mission.coactions.count %><br>
+    Mission factors: <%= @mission.stickies.count %><br>
+    Factors accounted for: <% if n > 0 then %><font color="green"><%= n %></font><% else %>None<% end %><br>
+    Unaccounted factors: <% if @mission.stickies.count - n > 0 then %><font color="red"><%= @mission.stickies.count - n %></font><% else %> 'None' <% end %><br>
+    Factors are <%= if n == 0 then 0 else (n.to_f / @mission.stickies.count.to_f * 100).to_i end %>% matched to actions.<br>
+    </blockquote>
+    
+    <%= link_to "Plan courses of action", mission_coactions_path(@mission) %>
+    <br>
+    <%= link_to 'See the finished plan', "finish/#{@mission.id}" %>
+
+     
+  </td>
+
+ <td align="left" valign="top">
+  <b>Signs and visions of wild success:</b>
   <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
   <%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'success' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'success', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
   <%= link_to 'Reorder successes', mission_path(@mission, :reorder => 'success') %>
+  </td>
+  </tr>
 
-<BR><BR>
+<tr><td align="left" valign="top">
+<a name="drivers"></a>
 <b>Resources and drivers of success:</b>  
   <%= link_to 'Clump Drivers', mission_clumps_path(:mission_id => @mission.id, :kind => 'driver') %> 
   <%= render :partial => "stickies/form" , :locals => { :kind => "driver" } %>
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'driver' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'driver', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder drivers', mission_path(@mission, :reorder => 'driver') %>
-      
-<BR><BR>      
+  <%= link_to 'Reorder drivers', mission_path(@mission, :reorder => 'driver'+ '#drivers') %>
+</td>
+
+<td align="left" valign="top">
+<a name="facts"></a>
 <b>Facts:</b> 
   <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
   <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'fact', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact') %>
+  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact' + '#facts') %>
+</td>
+</tr>
+
   
-<BR><BR>      
+<tr><td align="left" valign="top"> 
+<a name="constraints"></a>    
 <b>Constraints and obstacles to success:</b>  
   <%= link_to 'Clump Constraints', mission_clumps_path(:mission_id => @mission.id, :kind => 'constraint') %>
   <%= render :partial => "stickies/form" , :locals => { :kind => "constraint" } %>
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'constraint' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'constraint', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder constraints', mission_path(@mission, :reorder => 'constraint') %>
-      
-<BR><BR>
-<b>Assumptions:</b>  
+  <%= link_to 'Reorder constraints', mission_path(@mission, :reorder => 'constraint') + '#constraints' %>
+ </td>
+
+ <td align="left" valign="top">
+ <a name="assumptions"></a> 
+  <b>Assumptions:</b>  
   <%= link_to 'Clump Assumptions', mission_clumps_path(:mission_id => @mission.id, :kind => 'assumption') %>
   <%= render :partial => "stickies/form" , :locals => { :kind => 'assumption' } %>
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'assumption' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'assumption', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder assumptions', mission_path(@mission, :reorder => 'assumption') %>
+  <%= link_to 'Reorder assumptions', mission_path(@mission, :reorder => 'assumption') + '#assumptions'%>
+ </td>
+ </tr>
+</table>
       
 
 
