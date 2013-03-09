@@ -1,24 +1,21 @@
-<table>
-<% if !(defined? unclumped) then unclumped = 'undefined' end %>
-<% if unclumped == 'truly' then %>
 
+<% if !(defined? unclumped) then unclumped = 'undefined' end %>
+
+<% if unclumped == 'truly' then %>
   <% if clump_id then %>
     <%= link_to 'Add', mission_clumps_path(:mission_id => @mission.id,  :clump_id =>  clump_id, :sticky_id => sticky.id, :kind => sticky.kind, :add_to_clump => true) %>
     <% end %>
-     <%= sticky.name %>
-     </td>
-   <% end %>
-    <% else  if unclumped == "not_true" && defined? clump_id then%>
-        
+  <%= sticky.name %>
+
+  <% end %>
+  <% else  if unclumped == 'not_true' && defined? clump_id then%>
         <%= link_to 'Rem', mission_clumps_path(:mission_id => @mission.id, :kind => sticky.kind, :clump_id => clump_id, :sticky_id => sticky.id, :kind => sticky.kind, :add_to_clump => 'remove') %> | 
-        <%= sticky.name %>
-       
+        <%= sticky.name %>       
     <% end %>
     
     
 <% unless defined? clump_id %>
-     <% c = Collaborator.where(:user_id => current_user.id, :mission_id => sticky.mission_id).first %>
-     <% if (c.permission == 'creator' || c.permission == 'admin') || sticky.user_id == current_user.id then %>
+     <% if (@collaborator.permission == ('creator' ||  'admin')) || sticky.user_id == current_user.id then %>
      <%= link_to 'del', [sticky.mission, sticky],
                :confirm => 'Are you sure?',
                :method => :delete %> | <%= sticky.name %></li>
@@ -26,5 +23,5 @@
         <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
     <% end %>   
  <% end %>
-</td></tr>
-</table>
+
+

@@ -33,7 +33,8 @@ class MissionsController < ApplicationController
   # GET /missions/1.json
   def show
     @mission = Mission.find(params[:id])
-
+    @collaborator = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id).first
+    @stickies = @mission.stickies
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @mission }

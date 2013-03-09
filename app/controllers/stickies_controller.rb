@@ -3,6 +3,7 @@ class StickiesController < ApplicationController
         @mission = Mission.find(params[:mission_id])
         @sticky  = @mission.stickies.new(params[:sticky])
         @sticky.user_id = current_user.id
+        @sticky.position = 0
         @sticky.save 
         redirect_to mission_path(@mission)
     end
@@ -32,7 +33,14 @@ class StickiesController < ApplicationController
             @sticky.clump_id = nil 
             @sticky.save 
         end 
-    end 
+    end
+    
+    def sort
+        params[:sticky].each_with_index do |id, index|
+            Sticky.update_all({position: index+1}, {id: id})
+        end
+        render nothing: true
+    end
     
 end
 

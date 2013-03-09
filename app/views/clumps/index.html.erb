@@ -33,7 +33,7 @@
   <col width="500">
   <col width="500">
   <tr>
-    <th>Unclumped <%= params[:kind].pluralize.capitalize || @sticky.kind.pluralize.capitalize %></th>
+    <th><%= @mission.stickies.where(:kind => params[:kind], :clump_id => nil).count %> unclumped <%= params[:kind].pluralize.capitalize || @sticky.kind.pluralize.capitalize %></th>
     <th><%= if params[:clump_id] then Clump.find(params[:clump_id]).name end || "No clump selected" %></th>
   </tr>
    
@@ -60,7 +60,7 @@
 </table>
 
 <BR><BR>
-<h3>Available clumps:</h3>
+<h3>Clumps:</h3>
 
 <%  clumps = @mission.clumps.find_all { |clump| clump.user_id && clump.kind == params[:kind] } %>
 <%=  render clumps.reverse %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306135719) do
+ActiveRecord::Schema.define(:version => 20130308230712) do
 
   create_table "clumps", :force => true do |t|
     t.integer  "user_id"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20130306135719) do
     t.integer  "clump_id"
     t.integer  "action_id"
     t.integer  "coaction_id"
+    t.integer  "position"
   end
 
   add_index "stickies", ["action_id"], :name => "index_stickies_on_action_id"

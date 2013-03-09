@@ -15,7 +15,9 @@ Gsd::Application.routes.draw do
       resources :assumptions
       resources :collaborators
       resources :clumps
-      resources :stickies
+      resources :stickies do
+          collection { post :sort }
+          end
       resources :coactions
     end
 
