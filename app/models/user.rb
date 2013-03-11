@@ -12,12 +12,7 @@ class User < ActiveRecord::Base
     
     # has_many :missions
     has_many :collaborators
-    has_many :successess
-    has_many :drivers
-    has_many :constraints
-    has_many :facts
-    has_many :assumptions
     has_many :stickies
-    # has_many :actions
+    has_many :coactions
     # has_many :missions, :through => :collaborators
 end

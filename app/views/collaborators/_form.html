@@ -1,0 +1,17 @@
+<%= form_for([@mission, @mission.collaborators.build]) do |f| %>
+<div class="field">
+    <ul>
+        <% users.each do |u| %>
+        <li>
+            <%= check_box_tag(:user_id, :value => u.id) %>
+            <%= label_tag(:name, u.name) %>
+        </li>
+        <% end %>
+    </ul>
+    <class="actions">
+        <br><%= f.submit "Invite collaborators" %>
+        </div>
+<% end %>
+
+
+

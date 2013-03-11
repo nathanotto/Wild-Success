@@ -35,7 +35,7 @@ padding:10px;
 
    <br><%= if @mission.is_public then 'Public' end %>
    <br>My role: <font color = "#00800"><%= @collaborator.permission.capitalize %></font>
-   <%= link_to "Add collaborators", users_path %><br>
+   <%= link_to "Add collaborators", new_mission_collaborator_path(@mission) %><br>
    Mission planning stats:
    <blockquote>
    Collaborators: 
