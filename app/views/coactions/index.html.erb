@@ -29,6 +29,7 @@
 
 <%= render :partial => "coactions/form" %> 
 <p> Selecting for: <b><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %></b> </p>
+<p> make this list draggable/re-orderable. <br>Put the # of stickies with each coaction; <br>put a link to clear the connections from the coaction to the stickies, <br>put a rollover link to display the stickies for the coaction.</p>
 <p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
    <% @coactions.each do |coaction| %>
     <% if !(params[:coaction_id]) || !(coaction.id == params[:coaction_id].to_i) then %> 

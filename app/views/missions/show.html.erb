@@ -75,7 +75,7 @@ padding:10px;
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'driver' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'driver', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder drivers', mission_path(@mission, :reorder => 'driver'+ '#drivers') %>
+  <%= link_to 'Reorder drivers', mission_path(@mission, :reorder => 'driver') + '#drivers' %>
 </td>
 
 <td align="left" valign="top">
@@ -86,7 +86,7 @@ padding:10px;
   <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'fact', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact' + '#facts') %>
+  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact') + '#facts' %>
 </td>
 </tr>
 
