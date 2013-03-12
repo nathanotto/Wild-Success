@@ -1,0 +1,27 @@
+<%= javascript_include_tag "application" %>
+<% coactions = coactions.sort_by { |s| s.position } %>
+  <ul id="coactions" data-update-url="/missions/<%= @mission.id %>/coactions/sort">
+ <% coactions.each do |coaction| %>
+     <%= content_tag_for :li, coaction do %>
+          <span class="handle">&#8593;-&#8595;</span>
+      <% if (coaction.id == params[:coaction_id].to_i) then %><font color="red">&#9829;</font><% else %>&#9674;<% end %>
+      <%= coaction.stickies.count %>
+         <% c = Collaborator.where(:user_id => current_user.id, :mission_id => coaction.mission_id).first %>       
+      <% if (c.permission == ('creator' ||  'admin')) || coaction.user_id == current_user.id then %>
+            <%= link_to 'del', [coaction.mission, coaction],
+                  :confirm => 'Are you sure?',
+                  :method => :delete %> |
+         <% else %>
+            <font color = "#FFA500"><%= User.find(coaction.user_id).name[0..2] %></font>: 
+        <% end %> 
+      <%= link_to "#{coaction.name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => coaction.id)%>
+      <% end %>
+  <% end %>
+  
+  <% if coactions.count <=0 then %>
+            ><font color="b5b5b5">Courses of action appear here</font>
+    <% end %>
+
+</ul>
+
+    

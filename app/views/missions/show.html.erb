@@ -25,7 +25,7 @@ padding:10px;
   <col width="200">
   <col width="200">
   <tr>
-  <td align="left" valign="top">
+  <td align="left" valign="top" background="#ababab">
    <%= link_to 'See all missions', missions_path %><br><br>
    <b>Mission: </b><%= @mission.name %>
    <br><b>Description: </b><%= @mission.blurb %>
@@ -38,7 +38,7 @@ padding:10px;
    <%= link_to "Add collaborators", new_mission_collaborator_path(@mission) %><br>
    Mission planning stats:
    <blockquote>
-   Collaborators: 
+   Collaborators:
    <%= if Collaborator.where(:mission_id => @mission.id).count > 1 then 
        Collaborator.where(:mission_id => @mission.id).count
        else 'just you' end %>. <br>
@@ -56,7 +56,7 @@ padding:10px;
      
   </td>
 
- <td align="left" valign="top">
+ <td align="left" valign="top" background = "red">
   <b>Signs and visions of wild success:</b>
   <%= link_to 'Clump Successes', mission_clumps_path(:mission_id => @mission.id, :kind => 'success') %>   
   <%= render :partial => "stickies/form", :locals => { :kind => "success" } %> 

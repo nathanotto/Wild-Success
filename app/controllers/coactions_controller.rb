@@ -2,6 +2,7 @@ class CoactionsController < ApplicationController
     def index
         @mission = Mission.find(params[:mission_id])
         @coactions = @mission.coactions
+        @collaborator = Collaborator.where(:user_id == current_user.id && :mission_id == @mission.id)
     end
     
     def create
@@ -27,7 +28,12 @@ class CoactionsController < ApplicationController
         end
         redirect_to mission_coactions_path(:mission_id => t_id)
     end
-
     
+    def sort
+        params[:coaction].each_with_index do |id, index|
+            Coaction.update_all({position: index+1}, {id: id})
+        end
+        render nothing: true
+    end
     
 end

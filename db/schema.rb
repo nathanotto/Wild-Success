@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308230712) do
+ActiveRecord::Schema.define(:version => 20130311182344) do
 
   create_table "clumps", :force => true do |t|
     t.integer  "user_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130308230712) do
     t.integer  "priority"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "position"
   end
 
   add_index "coactions", ["mission_id"], :name => "index_coactions_on_mission_id"

@@ -29,22 +29,12 @@
 
 <%= render :partial => "coactions/form" %> 
 <p> Selecting for: <b><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %></b> </p>
-<p> make this list draggable/re-orderable. <br>Put the # of stickies with each coaction; <br>put a link to clear the connections from the coaction to the stickies, <br>put a rollover link to display the stickies for the coaction.</p>
+<p> Put a link to clear the connections from the coaction to the stickies, <br>put a rollover link to display the stickies for the coaction.</p>
 <p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
-   <% @coactions.each do |coaction| %>
-    <% if !(params[:coaction_id]) || !(coaction.id == params[:coaction_id].to_i) then %> 
-      <% c = Collaborator.where(:user_id => current_user.id, :mission_id => coaction.mission_id).first %>
-      <% if (c.permission == 'creator' || c.permission == 'admin') || coaction.user_id == current_user.id then %>
-           <%= link_to 'del', [coaction.mission, coaction],
-               :confirm => 'Are you sure?',
-               :method => :delete %>
-       <% else %>
-         <font color = "#FFA500"><%= User.find(coaction.user_id).name[0..2] %></font>
-       <% end %> |
-       <%= link_to "#{coaction.name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => coaction.id)%><br>
-      <% end %>
-    <% end %>
-       </p>
+
+<%= render :partial => "coactions/coactions_list", :locals => { 
+                :coactions => @coactions, :collaborator => @collaborator } %></p><p>
+        
 
         <% success    = Sticky.where(:mission_id => @mission.id, :kind => 'success') %>
         <% driver     = Sticky.where(:mission_id => @mission.id, :kind => 'driver') %>
@@ -84,7 +74,7 @@ Put links from success to a view of the successes, drivers, etc. Put link to tog
                         <font color="#088A29">
                         <%= success[i].coactions.count %></font>  
                         <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(success[i].id))) then %>
-                              <font color = "red">&bull;</font>
+                              <font color = "red">&#9829;</font>
                               <% connect_action = 'disconnect' %>
                         <%  else %>
                             |
@@ -106,7 +96,7 @@ Put links from success to a view of the successes, drivers, etc. Put link to tog
                         <font color="#088A29">
                         <%= driver[i].coactions.count %></font>  
                         <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(driver[i].id))) then %>
-                              <font color = "red">&bull;</font>
+                              <font color = "red">&#9829;</font>
                               <% connect_action = 'disconnect' %>
                         <%  else %>
                             |
@@ -128,7 +118,7 @@ Put links from success to a view of the successes, drivers, etc. Put link to tog
                         <font color="#088A29">
                         <%= constraint[i].coactions.count %></font>  
                         <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(constraint[i].id))) then %>
-                              <font color = "red">&bull;</font>
+                              <font color = "red">&#9829;</font>
                               <% connect_action = 'disconnect' %>
                         <%  else %>
                             |
@@ -150,7 +140,7 @@ Put links from success to a view of the successes, drivers, etc. Put link to tog
                         <font color="#088A29">
                         <%= fact[i].coactions.count %></font>  
                         <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(fact[i].id))) then %>
-                              <font color = "red">&bull;</font>
+                              <font color = "red">&#9829;</font>
                               <% connect_action = 'disconnect' %>
                         <%  else %>
                             |
@@ -171,7 +161,7 @@ Put links from success to a view of the successes, drivers, etc. Put link to tog
                         <font color="#088A29">
                         <%= assumption[i].coactions.count %></font>  
                         <% if ((params[:coaction_id]) && (Coaction.find(params[:coaction_id]).stickies.include? Sticky.find(assumption[i].id))) then %>
-                              <font color = "red">&bull;</font>
+                              <font color = "red">&#9829;</font>
                               <% connect_action = 'disconnect' %>
                         <%  else %>
                             |

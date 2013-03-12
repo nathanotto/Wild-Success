@@ -18,7 +18,9 @@ Gsd::Application.routes.draw do
       resources :stickies do
           collection { post :sort }
           end
-      resources :coactions
+      resources :coactions do
+          collection { post :sort }
+          end
     end
 
     put  "missions/:mission_id/clumps" => 'clumps#update'
