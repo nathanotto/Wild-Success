@@ -1,17 +1,23 @@
 <%= form_for([@mission, @mission.collaborators.build]) do |f| %>
 <div class="field">
-    <ul>
-        <% users.each do |u| %>
+    <ul >
+        <% already_collaborating.each do |foo| %>
         <li>
-            <%= check_box_tag(:user_id, :value => u.id) %>
-            <%= label_tag(:name, u.name) %>
+            <%= check_box_tag "mission[user.ids][]", foo.id, true  %>
+            <%= label_tag(:name, foo.name) %>
+        </li>
+        <% end %>
+        <% @users.each do |user| %>
+        <li>
+            <%= check_box_tag "mission[user.ids][]", user.id, false  %>
+            <%= label_tag(:name, user.name) %>
         </li>
         <% end %>
     </ul>
     <%= f.text_field :email_list, :size => 60, :value => 'myfriend@gmail.com, another@yahoo.com'  %>
     <class="actions">
         <br><%= f.submit "Invite collaborators" %>
-        </div>
+    </div>
 <% end %>
 
 

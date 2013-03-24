@@ -1,5 +1,15 @@
-<h1>Choose Collaborators</h1>
+<h1>Invite Collaborators</h1>
 <p></p>
+<p>
+Current collaborators:
+<%= @mission.users.count %></p>
+<% if @users then %>
+    Collaborators on other missions: <%= @users.count %>
+ <% else %>
+    <%= "no other collaborators found" %>
+ <% end %>
 
-<%= render :partial => "collaborators/form" , :locals => { :users => @users } %>
+<%= render :partial => "collaborators/form" , :locals => { :users => @users, :already_collaborating => @mission.users } %>
+
+<%= $param %><p>
 

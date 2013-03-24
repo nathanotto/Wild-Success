@@ -9,6 +9,7 @@ class CoactionsController < ApplicationController
         @mission = Mission.find(params[:mission_id])
         @coaction = @mission.coactions.new(params[:coaction])
         @coaction.user_id = current_user.id
+        @coaction.position = 0;
         @coaction.save
         
         redirect_to mission_coactions_path(:mission_id => @mission.id, :coaction_id => @coaction.id)

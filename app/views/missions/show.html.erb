@@ -79,19 +79,6 @@ padding:10px;
 </td>
 
 <td align="left" valign="top">
-<a name="facts"></a>
-<b>Facts:</b> 
-  <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
-  <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
-  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
-  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'fact', 
-                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
-  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact') + '#facts' %>
-</td>
-</tr>
-
-  
-<tr><td align="left" valign="top"> 
 <a name="constraints"></a>    
 <b>Constraints and obstacles to success:</b>  
   <%= link_to 'Clump Constraints', mission_clumps_path(:mission_id => @mission.id, :kind => 'constraint') %>
@@ -100,6 +87,19 @@ padding:10px;
   <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'constraint', 
                 :stickies => stickies, :reorder => params[:reorder] } %><p></p>
   <%= link_to 'Reorder constraints', mission_path(@mission, :reorder => 'constraint') + '#constraints' %>
+</td>
+</tr>
+
+  
+<tr><td align="left" valign="top"> 
+<a name="facts"></a>
+<b>Facts:</b> 
+  <%= link_to 'Clump Facts', mission_clumps_path(:mission_id => @mission.id, :kind => 'fact') %>
+  <%= render :partial => "stickies/form" , :locals => { :kind => "fact" } %>
+  <% stickies = @stickies.find_all { |sticky|  sticky.user_id && sticky.kind == 'fact' } %>
+  <%= render :partial => "stickies/sticky_list", :locals => {:kind => 'fact', 
+                :stickies => stickies, :reorder => params[:reorder] } %><p></p>
+  <%= link_to 'Reorder facts', mission_path(@mission, :reorder => 'fact') + '#facts' %>
  </td>
 
  <td align="left" valign="top">

@@ -1,3 +1,26 @@
 
 <h1>Mission Analysis</h1>
-<p><%= if current_user then link_to "My Missions", missions_path end %><p>
+<% if current_user then %>
+    <p><%= link_to "My Missions", missions_path %></p>
+    <% @user = User.find(current_user.id) %>
+    <p>You have <%= @user.missions.count %> missions. </p>
+    <p id="notice"><%= notice %></p>
+    <% @collaborators = Collaborator.where(:user_id => @user.id, :confirmed => 'false') %>
+    <% if @collaborators then %>
+       <p>Collaboration invitations: </p>
+       <% @collaborators.each do |c| %>
+            
+            <br><%= link_to 'Accept', confirm_collaborator_path(c, :confirmed => 'true') %> | 
+                <%= link_to 'Decline', [@user, c],
+               :confirm => "You wish to decline collaborating with #{User.find(c.inviter_user_id).name} on #{Mission.find(c.mission_id).name}?",
+               :method => :delete %> 
+                <%= User.find(c.inviter_user_id).name %> invited you to collaborate on 
+                <%= Mission.find(c.mission_id).name %>
+        <% end %>
+    <% end %>
+
+<% end %>
+
+<p></p><p></p><p></p><p></p>
+
+

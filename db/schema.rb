@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311182344) do
+ActiveRecord::Schema.define(:version => 20130323220810) do
 
   create_table "clumps", :force => true do |t|
     t.integer  "user_id"
@@ -51,9 +51,11 @@ ActiveRecord::Schema.define(:version => 20130311182344) do
     t.integer  "mission_id"
     t.integer  "user_id"
     t.string   "permission"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.boolean  "confirmed"
+    t.boolean  "can_invite"
+    t.integer  "inviter_user_id"
   end
 
   add_index "collaborators", ["mission_id"], :name => "index_collaborators_on_mission_id"
@@ -79,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20130311182344) do
     t.integer  "action_id"
     t.integer  "coaction_id"
     t.integer  "position"
+    t.boolean  "can_invite"
   end
 
   add_index "stickies", ["action_id"], :name => "index_stickies_on_action_id"

@@ -28,6 +28,8 @@ Gsd::Application.routes.draw do
   get "home/index"
     
   match 'missions/finish/:id' => 'missions#finish'
+    
+  get 'collaborator/confirm/:id' => 'collaborators#confirm', :as => 'confirm_collaborator'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

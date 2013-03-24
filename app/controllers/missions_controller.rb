@@ -70,7 +70,7 @@ class MissionsController < ApplicationController
   def edit
       @mission = Mission.find(params[:id])
       @collaborator = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id)
-      unless @collaborator.first.permission == 'creator' || @collaborator.first.permission == 'admin'
+      unless @collaborator.first.permission == ('creator' ||  'admin' )
           flash[:notice] = "You don't have creator or admin permission to edit this mission."
           redirect_to missions_url
           end
@@ -117,6 +117,7 @@ class MissionsController < ApplicationController
   # DELETE /missions/1.json NOTE: need to clean up Collaborators here
   def destroy
     @mission = Mission.find(params[:id])
+    @mission.collaborators.destroy
     @mission.destroy
 
     respond_to do |format|
