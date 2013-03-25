@@ -1,0 +1,10 @@
+Hi <%= @user.name %>,
+
+<%= @inviting_user.name %> invited you to collaborate to plan for wild success planning
+<%= @mission.name %>.
+
+Click on this link to see your invitation:
+
+<%= url_for(:host => "localhost:3000", :controller => "home", :action => "index") %>
+
+(you might have to log in if you haven't visited Wild Success in a while)

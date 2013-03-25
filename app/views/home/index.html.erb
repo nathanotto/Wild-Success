@@ -3,9 +3,9 @@
 <% if current_user then %>
     <p><%= link_to "My Missions", missions_path %></p>
     <% @user = User.find(current_user.id) %>
-    <p>You have <%= @user.missions.count %> missions. </p>
+    <p>You are part of <%= Collaborator.where("user_id = ? AND (confirmed = ? OR confirmed = ?)", @user.id, 'true', 't').count %> missions. </p>
     <p id="notice"><%= notice %></p>
-    <% @collaborators = Collaborator.where(:user_id => @user.id, :confirmed => 'false') %>
+    <% @collaborators = Collaborator.where("user_id = ? AND (confirmed = ? OR confirmed = ?)", @user.id, 'false', 'f') %>
     <% if @collaborators then %>
        <p>Collaboration invitations: </p>
        <% @collaborators.each do |c| %>
@@ -22,5 +22,6 @@
 <% end %>
 
 <p></p><p></p><p></p><p></p>
+Notes: put mission stats here for the user? Or maybe on mission index page.
 
 

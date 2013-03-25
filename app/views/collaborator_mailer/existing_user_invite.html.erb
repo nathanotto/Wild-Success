@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>Hi <%= @user.name %>,</p>
+    <p>
+      <%= @inviting_user.name %> invited you to collaborate to plan for wild success planning<br>
+      <b><%= @mission.name %></b>.
+<br/>
+    </p>
+    <p>
+      Click on this link to see your invitation: <%= link_to "Invitation", url_for(:host => "localhost:3000", :controller => "home", :action => "index") %>
+    </p>
+    <p>Enjoy your collaboration!</p>
+  </body>
+</html>
+

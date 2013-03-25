@@ -11,12 +11,13 @@ class CollaboratorsController < ApplicationController
                 mission = Mission.find(m_id)
                 u_ids = u_ids + mission.user_ids
             end
-                
-                
-            @users = User.find(u_ids)
-            @users = @users.reject { |h| @users.include? h['email'] }
-            # @users = User.all
-           
+            # delete the current user from collaborators
+            u_ids.delete_if{|u| u == @user.id }
+            # delete the users already collaborating
+            @mission.users.each do |user|
+                u_ids.delete_if{|u| u == user.id }
+            end 
+            if !u_ids.empty? then @users = User.find(u_ids) end 
         else
             flash[:notice] = "You must be creator, admin or have special permission to add collaborators to this mission."
             redirect_to mission_url(@mission)
@@ -28,13 +29,51 @@ class CollaboratorsController < ApplicationController
         # need to confirm that they are collaborating.
         # collaboration invitations show up on users screens with confirmations
         # some collaborators are invited by email and don't have accounts
-        # they will have accounts created when email is sent
-        # the confirmation of the the email confirms both the user and the collaborator
+        # email links will create the accounts and generate the collaborations
+        # the confirmation of the the email confirms the user, then the collaborator is confirmed
+        # on the home index screen of the user.
         # ALL proposed collaborators will be sent emails
         @mission = Mission.find(params[:mission_id])
         @user = User.find(current_user.id)
-        $param = params
-        redirect_to new_mission_collaborator_path(@mission)
+        # first, email the existing users
+        names_string = " "
+        bad_emails = " "
+        if params[:mission].present? then
+            params[:mission][:user_ids].each do |id|
+                user = User.find(id)
+                names_string = names_string + user.email + ", "
+                # make new collaborator here: mission, user_id, inviter_user_id
+                c_new = Collaborator.new
+                c_new.user_id = user.id
+                c_new.inviter_user_id = @user.id
+                c_new.permission = 'colleague'
+                c_new.mission_id = @mission.id
+                c_new.confirmed = 'f'
+                c_new.can_invite = 'f' # refinement: let this be a parameter set by admins and owners
+                c_new.save
+                # send email here
+                CollaboratorMailer.existing_user_invite(user, @user, @mission).deliver
+            end
+        end
+        if params[:collaborator].present? then # then there is a list of emails there to process
+            emails = params[:collaborator][:email_list].split(",")
+            # verify each email is valid and throw away the baddies
+            emails.each do |em|
+                if em =~ /@/ then
+                    names_string = names_string + em + ", "
+                    CollaboratorMailer.new_user_invite(em, @user, @mission).deliver
+                else
+                    bad_emails = bad_emails + em + ", "
+                end
+            end
+        end 
+        # $param = params
+        # trim the last "," off of names_string here and bad_emails
+        if bad_emails != " " then
+            names_string = names_string + " and couldn't send email to: " + bad_emails
+        end 
+        # redirect_to @mission, notice: "Emailed invitations to #{names_string}."
+        redirect_to new_mission_collaborator_path(@mission), notice: "Emailed invitations to " + names_string + "."
     end
     
     def confirm

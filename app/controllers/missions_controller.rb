@@ -83,7 +83,7 @@ class MissionsController < ApplicationController
       @mission.save
       # @mission.user_id = current_user.id #Sets the owner and creator of the mission. Outdated, now use collaborators exclusively.
       # Set the current user to 'creator' with a new entry in Collaborators:
-      @collaborator = Collaborator.new(:user_id => current_user.id, :mission_id => @mission.id, :permission => 'creator', :confirmed => true)
+      @collaborator = Collaborator.new(:user_id => current_user.id, :mission_id => @mission.id, :permission => 'creator', :confirmed => true, :inviter_user_id => current_user.id)
       @collaborator.save
       
     respond_to do |format|

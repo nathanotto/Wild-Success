@@ -1,15 +1,29 @@
+<p id="notice"><%= notice %></p>
 <h1>Invite Collaborators</h1>
-<p></p>
+<p><p><%= link_to 'Back to mission', @mission %></p></p>
 <p>
-Current collaborators:
-<%= @mission.users.count %></p>
+Current collaborators
+<%if @mission.users.count > 1 then %>
+    <%= @mission.users.count %>: 
+    <% @mission.users.each do |user| %>
+        <%= user.name.capitalize + " | " %>
+      <% end %>
+    <% else %>
+       Only you so far 
+    <% end %> </p>
 <% if @users then %>
     Collaborators on other missions: <%= @users.count %>
  <% else %>
     <%= "no other collaborators found" %>
  <% end %>
 
-<%= render :partial => "collaborators/form" , :locals => { :users => @users, :already_collaborating => @mission.users } %>
+<%= render :partial => "collaborators/form" , :locals => { :users => @users } %>
 
-<%= $param %><p>
+<br><br><br><br>
+Notes:
+<ul>
+<li>--Look for existing emails in the system, do regular on-screen invites to those people, plus the email
+<li>--Handle the case where a person is already in the system, but has a different account already set up
+<li>--Set up the link in the email to generate the user account, or JUST the collaboration if they already have an account. Need to make a special landing page for the email link. (security issues? Check the database for a collaboration waiting to be confirmed? Worry about that later)
+<li>--email invitations to users already in the system are simply invited to go to their home page, where the collaboration invitation will appear for invited but not confirmed.
 
