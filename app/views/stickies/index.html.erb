@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<% kind = params[:kind] %>
+Your job here is to<h3>
+ <% if kind == 'success' then %>
+  Envision wild success for
+ <% end %>
+ <% if kind == 'driver' then %>
+  List drivers and resources for 
+ <% end %>
+ <% if kind == 'constraint' then %>
+  List constraints and obstacles for
+ <% end %>
+ <% if kind == 'fact' then %>
+  List relevant facts for 
+ <% end %>
+ <% if kind == 'assumption' then %>
+  List relevant assumptions for 
+ <% end %>
+ </h2>
+ <b>Mission: </b><%= @mission.name + ":" %>
+
+
+<p>
+<%= link_to 'Clump ' + kind.pluralize.capitalize, mission_clumps_path(:mission_id => @mission.id, :kind => kind) %>   
+  <%= render :partial => "stickies/form", :locals => { :kind => kind } %> 
+</p>
+
+<%= render :partial => "stickies/sticky_list", :locals => {:kind => kind, 
+                :stickies => @stickies, :reorder => kind } %>
+
+<br>
+<blockquote>
+<% if kind == 'success' then %>
+  Retreat!<%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), new_mission_collaborator_path(@mission) %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'driver') %>Onward!
+ <% end %>
+ <% if kind == 'driver' then %>
+  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'success') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'constraint') %>
+ <% end %>
+ <% if kind == 'constraint' then %>
+  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'driver') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'fact') %>
+ <% end %>
+ <% if kind == 'fact' then %>
+  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'constraint') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'assumption') %>
+ <% end %>
+ <% if kind == 'assumption' then %>
+  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'fact') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_coactions_path(@mission) %>
+
+ <% end %>
+ </blockquote>
+

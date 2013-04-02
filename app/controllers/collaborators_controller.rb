@@ -37,11 +37,14 @@ class CollaboratorsController < ApplicationController
         @user = User.find(current_user.id)
         # first, email the existing users
         names_string = " "
+        name_count = 0
         bad_emails = " "
+        bad_email_count = 0
         if params[:mission].present? then
             params[:mission][:user_ids].each do |id|
                 user = User.find(id)
                 names_string = names_string + user.email + ", "
+                name_count += 1
                 # make new collaborator here: mission, user_id, inviter_user_id
                 c_new = Collaborator.new
                 c_new.user_id = user.id
@@ -57,23 +60,30 @@ class CollaboratorsController < ApplicationController
         end
         if params[:collaborator].present? then # then there is a list of emails there to process
             emails = params[:collaborator][:email_list].split(",")
-            # verify each email is valid and throw away the baddies
+            # verify each email is valid enough and throw away the baddies
             emails.each do |em|
                 if em =~ /@/ then
                     names_string = names_string + em + ", "
+                    name_count += 1
                     CollaboratorMailer.new_user_invite(em, @user, @mission).deliver
                 else
                     bad_emails = bad_emails + em + ", "
+                    bad_email_count += 1
                 end
             end
         end 
         # $param = params
         # trim the last "," off of names_string here and bad_emails
-        if bad_emails != " " then
-            names_string = names_string + " and couldn't send email to: " + bad_emails
+        if bad_email_count > 0 then
+            names_string = names_string + " and couldn't send to: " + bad_emails
         end 
         # redirect_to @mission, notice: "Emailed invitations to #{names_string}."
-        redirect_to new_mission_collaborator_path(@mission), notice: "Emailed invitations to " + names_string + "."
+        if name_count < 1 then names_string = "No invitations sent. ,"
+            else
+            names_string = "Emailed invitations to " + names_string + "."
+        end 
+        names_string = names_string[0..-4] + '.'
+        redirect_to mission_stickies_path(@mission, :kind => 'success'), notice: names_string
     end
     
     def confirm

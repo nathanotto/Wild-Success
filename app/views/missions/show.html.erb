@@ -45,13 +45,28 @@ padding:10px;
     Courses of action: <%= @mission.coactions.count %><br>
     Mission factors: <%= @mission.stickies.count %><br>
     Factors accounted for: <% if n > 0 then %><font color="green"><%= n %></font><% else %>None<% end %><br>
-    Unaccounted factors: <% if @mission.stickies.count - n > 0 then %><font color="red"><%= @mission.stickies.count - n %></font><% else %> 'None' <% end %><br>
-    Factors are <%= if n == 0 then 0 else (n.to_f / @mission.stickies.count.to_f * 100).to_i end %>% matched to actions.<br>
+    Unaccounted factors: <% if @mission.stickies.count - n > 0 then %><font color="red"><%= @mission.stickies.count - n %></font><% else %> None <% end %><br>
+    <% percent_finished = (if n == 0 then 0 else (n.to_f / @mission.stickies.count.to_f * 100).to_i end) %>
+    Factors are <%= percent_finished %>% matched to actions.<br>
     </blockquote>
     
-    <%= link_to "Plan courses of action", mission_coactions_path(@mission) %>
-    <br>
-    <%= link_to 'See the finished plan', "finish/#{@mission.id}" %>
+    <% finished_plan_string = 'See your completely unfinished plan' %>
+    <% if percent_finished == 0 then finished_plan_string = 'Make some courses of action before clicking here' end %>
+    <% if percent_finished > 9 then finished_plan_string = 'See your plan barely started' end %>
+    <% if percent_finished > 19 then finished_plan_string = 'See your plan on the way' end %>
+    <% if percent_finished > 29 then finished_plan_string = 'See your plan well underway' end %>
+    <% if percent_finished > 39 then finished_plan_string = 'See your plan moving along nicely' end %>
+    <% if percent_finished > 49 then finished_plan_string = 'See your plan almost halfway' end %>
+    <% if percent_finished > 59 then finished_plan_string = 'See your plan over the hump' end %>
+    <% if percent_finished > 69 then finished_plan_string = 'See your plan getting there soon' end %>
+    <% if percent_finished > 79 then finished_plan_string = 'See your plan nearly finished' end %>
+    <% if percent_finished > 89 then finished_plan_string = 'See your plan just before it\'s done' end %>
+    <% if percent_finished == 100 then finished_plan_string = 'You did it! See your completed plan!' end %>
+
+    
+    <%= link_to "Easy step by step planning", mission_stickies_path(@mission, :kind => 'success') %> | 
+    <%= link_to "Plan courses of action", mission_coactions_path(@mission) %> | 
+    <%= link_to finished_plan_string, "finish/#{@mission.id}" %>
 
      
   </td>

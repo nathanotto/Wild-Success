@@ -23,8 +23,8 @@ Blurb: <%= @mission.blurb %>
     <% end %>
 <p><u>Courses of action and their factors (factors can be repeated):</u> </p>
 <% @coactions.reverse.each do |coaction| %>
-    <font color="green"><%= coaction.stickies.count %> factors: </font>
-    <%= coaction.name %><br><blockquote>
+    
+    <i><%= coaction.name %></i> accounts for <font color="green"><%= coaction.stickies.count %> factors: </font><br><blockquote>
     <% @stickies = coaction.stickies  %>
     <% if !@stickies.empty? then %>
        <% @stickies = @stickies.sort_by { |a| a.kind } %>

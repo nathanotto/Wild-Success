@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
-<h1>Invite Collaborators</h1>
-<p><p><%= link_to 'Back to mission', @mission %></p></p>
+Invite people to collaborate with you on:
+<h2><%= @mission.name %></h2>
+<p><p><%= link_to 'Mission overview', @mission %></p></p>
 <p>
 Current collaborators
 <%if @mission.users.count > 1 then %>

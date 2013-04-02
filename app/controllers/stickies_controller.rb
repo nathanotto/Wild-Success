@@ -5,7 +5,11 @@ class StickiesController < ApplicationController
         @sticky.user_id = current_user.id
         @sticky.position = 0
         @sticky.save 
-        redirect_to mission_path(@mission) + '#' + @sticky.kind.pluralize
+        if 1 > 0 then
+            redirect_to mission_path(@mission) + '#' + @sticky.kind.pluralize
+        else
+            redirect_to mission_stickies_path(@mission, :kind => @sticky.kind)
+        end 
     end
     
     def destroy
@@ -41,6 +45,13 @@ class StickiesController < ApplicationController
         end
         render nothing: true
     end
+    
+    def index
+        @mission = Mission.find(params[:mission_id])
+        @user = User.find(current_user.id)
+        @collaborator = @user.collaborators.where(:mission_id => @mission.id).first
+        @stickies = @mission.stickies.where(:kind => params[:kind])
+    end 
     
 end
 
