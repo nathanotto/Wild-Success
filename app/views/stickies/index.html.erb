@@ -19,15 +19,15 @@ Your job here is to<h3>
  <% end %>
  </h2>
  <b>Mission: </b><%= @mission.name + ":" %>
+<p><%= link_to 'Mission overview', @mission %> |
 
 
-<p>
 <%= link_to 'Clump ' + kind.pluralize.capitalize, mission_clumps_path(:mission_id => @mission.id, :kind => kind) %>   
-  <%= render :partial => "stickies/form", :locals => { :kind => kind } %> 
+  <%= render :partial => "stickies/form", :locals => { :kind => kind, :track => 1 } %> 
 </p>
 
 <%= render :partial => "stickies/sticky_list", :locals => {:kind => kind, 
-                :stickies => @stickies, :reorder => kind } %>
+                :stickies => @stickies, :reorder => kind, :track => 1 } %>
 
 <br>
 <blockquote>
@@ -53,4 +53,5 @@ Your job here is to<h3>
 
  <% end %>
  </blockquote>
+
 

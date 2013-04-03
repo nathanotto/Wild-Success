@@ -6,7 +6,7 @@
      <%= content_tag_for :li, sticky do %>
        <span class="handle">&#8593;-&#8595;</span>
        <% if (@collaborator.permission == ('creator' ||  'admin')) || sticky.user_id == current_user.id then %>
-       <%= link_to 'del', [sticky.mission, sticky],
+       <%= link_to 'del', mission_sticky_path(:mission_id => sticky.mission, :id => sticky, :track => track),
                :confirm => 'Are you sure?',
                :method => :delete %> | 
                <%= sticky.name %>
@@ -15,16 +15,13 @@
     <% end %> 
    <% end %>
   <% end %>
-  <% if stickies.count <=0 then %>
-            ><font color="b5b5b5">Visions of <%= params[:kind]%> appear here</font>
-    <% end %>
 
   <% else %>
     <ul>
     <% stickies.each do |sticky| %>
     <li>
     <% if (@collaborator.permission == ('creator' ||  'admin')) || sticky.user_id == current_user.id then %>
-       <%= link_to 'del', [sticky.mission, sticky],
+       <%= link_to 'del', mission_sticky_path(:mission_id => sticky.mission, :id => sticky, :track => track),
                :confirm => 'Are you sure?',
                :method => :delete %> | 
                <%= sticky.name %>

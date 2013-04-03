@@ -5,24 +5,29 @@ class StickiesController < ApplicationController
         @sticky.user_id = current_user.id
         @sticky.position = 0
         @sticky.save 
-        if 1 > 0 then
+        if params[:track] == '0' then
             redirect_to mission_path(@mission) + '#' + @sticky.kind.pluralize
-        else
+            elsif params[:track] == '1' then
             redirect_to mission_stickies_path(@mission, :kind => @sticky.kind)
-        end 
+        end
     end
     
     def destroy
         @mission = Mission.find(params[:mission_id])
         @sticky  = @mission.stickies.find(params[:id])
+        kind = @sticky.kind
+        track = params[:track]
         c = Collaborator.where(:user_id => current_user.id, :mission_id => @sticky.mission_id).first
         if (c.permission == 'creator' || c.permission == 'admin') || @sticky.user_id == current_user.id then
             @sticky.destroy
-            
         else
             flash[:notice] = "Can't delete unless it's yours or you have admin permission."
         end
-        redirect_to mission_path(@mission)
+        if track == '0' then
+            redirect_to mission_path(@mission) + '#' + kind.pluralize
+            elsif track == '1' then
+            redirect_to mission_stickies_path(@mission, :kind => kind)
+        end
     end
     
     def clump

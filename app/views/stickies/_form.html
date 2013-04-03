@@ -2,7 +2,7 @@
 <div class="field">
     <%= f.text_field :name, :size => 60 %>
     <%= f.hidden_field :kind, :value => kind %>
-
+    <%= hidden_field_tag :track, track %>
     <class="actions"> 
         <br><%= f.submit "Add to " + kind.pluralize.capitalize %>
         </div>
