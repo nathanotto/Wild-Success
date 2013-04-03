@@ -36,20 +36,20 @@ Your job here is to<h3>
   <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'driver') %>Onward!
  <% end %>
  <% if kind == 'driver' then %>
-  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'success') %>
-  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'constraint') %>
+  Retreat!<%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'success') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'constraint') %>Onward!
  <% end %>
  <% if kind == 'constraint' then %>
-  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'driver') %>
-  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'fact') %>
+  Retreat!<%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'driver') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'fact') %>Onward!
  <% end %>
  <% if kind == 'fact' then %>
-  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'constraint') %>
-  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'assumption') %>
+  Retreat!<%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'constraint') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'assumption') %>Onward!
  <% end %>
  <% if kind == 'assumption' then %>
-  <%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'fact') %>
-  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_coactions_path(@mission) %>
+  Retreat!<%= link_to image_tag('back_button.jpg', :width => 50, :height => 30), mission_stickies_path(@mission, :kind => 'fact') %>
+  <%= link_to image_tag('next_button.jpg', :width => 50, :height => 30), mission_coactions_path(@mission) %>Onward!
 
  <% end %>
  </blockquote>
