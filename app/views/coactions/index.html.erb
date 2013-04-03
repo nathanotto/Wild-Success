@@ -29,7 +29,6 @@
 
 <%= render :partial => "coactions/form" %> 
 <p> Selecting for: <b><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %></b> </p>
-<p> Put a link to clear the connections from the coaction to the stickies, <br>put a rollover link to display the stickies for the coaction.</p>
 <p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
 
 <%= render :partial => "coactions/coactions_list", :locals => { 
@@ -43,8 +42,6 @@
         <% assumption = Sticky.where(:mission_id => @mission.id, :kind => 'assumption') %>
         <% rows = [success.count, driver.count, constraint.count, fact.count, assumption.count].max %>
 
-
-Put links from success to a view of the successes, drivers, etc. Put link to toggle clumps by column?
 <div id="tableContainer" class="tableContainer">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
 <thead class="fixedHeader">
@@ -184,7 +181,8 @@ Put links from success to a view of the successes, drivers, etc. Put link to tog
   </table>
 </div>
 
-
+<p> Put a link to clear the connections from the coaction to the stickies, <br>put a rollover link to display the stickies for the coaction.</p>
+Put links from success to a view of the successes, drivers, etc. Put link to toggle clumps by column?
 
 
 

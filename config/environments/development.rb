@@ -50,16 +50,3 @@ Gsd::Application.configure do
   config.assets.debug = true
 end
 
-
-=begin 
- config.action_mailer.smtp_settings = {
- address: "mail.nathanotto.com",
- port: 587,
- domain: "nathanotto.com",
- authentication: "plain",
- enable_starttls_auto: true,
- user_name: "nathan@nathanotto.com",
- password: "hank777"
- }
-config.action_mailer.delivery_method = :smtp
-=end
