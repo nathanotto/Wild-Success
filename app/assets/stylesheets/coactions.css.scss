@@ -49,7 +49,7 @@ h3 {
 div.tableContainer {
 	clear: both;
 	border: 1px solid #963;
-	height: 285px;
+	height: 385px;
 	overflow: auto;
 	width: 1116px
 }
@@ -120,7 +120,7 @@ thead.fixedHeader a:hover {
 /* induced side effect is that child TDs no longer accept width: auto                     */
 html>body tbody.scrollContent {
 	display: block;
-	height: 262px;
+	height: 362px;
 	overflow: auto;
 	width: 100%
 }
@@ -133,7 +133,8 @@ tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
 	border-left: none;
 	border-right: 1px solid #CCC;
 	border-top: 1px solid #DDD;
-	padding: 2px 3px 3px 4px
+	padding: 2px 2px 2px 5px;
+    font-size:90%
 }
 
 tbody.scrollContent tr.alternateRow td {
@@ -142,7 +143,8 @@ tbody.scrollContent tr.alternateRow td {
 	border-left: none;
 	border-right: 1px solid #CCC;
 	border-top: 1px solid #DDD;
-	padding: 2px 3px 3px 4px
+	padding: 2px 2px 2px 5px;
+    font-size:90%
 }
 
 /* define width of TH elements: 1st, 2nd, and 3rd respectively.          */

@@ -28,29 +28,30 @@
 <p><%= link_to 'See the finished plan', "/missions/finish/#{@mission.id}" %></p>
 
 <%= render :partial => "coactions/form" %> 
-<p> Selecting for: <b><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %></b> </p>
+
 <p><% @coactions = Coaction.where(:mission_id => params[:mission_id]) %>
 
 <%= render :partial => "coactions/coactions_list", :locals => { 
                 :coactions => @coactions, :collaborator => @collaborator } %></p><p>
         
+<table border=0 ><tr><td>>>> Click factors for: <b><font color = "red">&#9829; </font><%= if params[:coaction_id] then Coaction.find(params[:coaction_id]).name else 'No action selected' end %>&nbsp&nbsp</b><<< </p></td></tr></table>
 
-        <% success    = Sticky.where(:mission_id => @mission.id, :kind => 'success') %>
-        <% driver     = Sticky.where(:mission_id => @mission.id, :kind => 'driver') %>
-        <% constraint = Sticky.where(:mission_id => @mission.id, :kind => 'constraint') %>
-        <% fact       = Sticky.where(:mission_id => @mission.id, :kind => 'fact') %>
-        <% assumption = Sticky.where(:mission_id => @mission.id, :kind => 'assumption') %>
+        <% success    = Sticky.where(:mission_id => @mission.id, :kind => 'success').sort_by { |a| a.position } %>
+        <% driver     = Sticky.where(:mission_id => @mission.id, :kind => 'driver').sort_by { |a| a.position } %>
+        <% constraint = Sticky.where(:mission_id => @mission.id, :kind => 'constraint').sort_by { |a| a.position } %>
+        <% fact       = Sticky.where(:mission_id => @mission.id, :kind => 'fact').sort_by { |a| a.position } %>
+        <% assumption = Sticky.where(:mission_id => @mission.id, :kind => 'assumption').sort_by { |a| a.position } %>
         <% rows = [success.count, driver.count, constraint.count, fact.count, assumption.count].max %>
-
+<blockquote>
 <div id="tableContainer" class="tableContainer">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
 <thead class="fixedHeader">
 <tr>
-  <th><a href="#">Successes</a></th>
-  <th><a href="#">Drivers</a></th>
-  <th><a href="#">Constraints</a></th>
-  <th><a href="#">Facts</a></th>
-  <th><a href="#">Assumptions</a></th>
+  <th><%= link_to "Successes", mission_stickies_path(@mission, :kind => 'success') %></th>
+  <th><%= link_to "Drivers", mission_stickies_path(@mission, :kind => 'driver') %></th>
+  <th><%= link_to "Constraints", mission_stickies_path(@mission, :kind => 'constraint') %></th>
+  <th><%= link_to "Facts", mission_stickies_path(@mission, :kind => 'fact') %></th>
+  <th><%= link_to "Assumptions", mission_stickies_path(@mission, :kind => 'assumption') %></th>
 </tr>
 </thead>
 <tbody class="scrollContent">
@@ -63,7 +64,7 @@
         <% else %>
             <% i = 0 %>
             <% while i < rows do %>
-              <tr>
+              <% if (i %2 == 0) then %><tr class="alternateRow"><% else %><tr class="normalRow"><% end %>
                 <td>
                   <% if success[i] then %>
                     <% connect_action = 'connect' %>
@@ -180,7 +181,6 @@
   </tr>
   </table>
 </div>
-
-
+</blockquote>
 
 

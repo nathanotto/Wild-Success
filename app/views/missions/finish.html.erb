@@ -5,23 +5,32 @@
 <h2>Mission: <%= @mission.name %> </h2>
 Blurb: <%= @mission.blurb %>
 
-<% @coactions = @coactions.sort_by { |a| a.stickies.count } %>
+<% @coactions = @coactions.sort_by { |a| a.position }.reverse %>
 <% unaccounted_factors = 0 %>
-<% unaccounted_foo = [] %>
+<% unaccounted_arr = [] %>
 <% @stickies.each do |sticky| %>
     <% if sticky.coactions.count == 0 then unaccounted_factors += 1  %>
-      <% unaccounted_foo << sticky %>
+      <% unaccounted_arr << sticky %>
     <% end %>
  <% end %>
 <% if unaccounted_factors > 0 then %>
         <p><font color="red"> There are <%= unaccounted_factors %> factors unaccounted for. </font></p>
         <blockquote><ol>
-        <% unaccounted_foo.each do |a| %>
+        <% unaccounted_arr.each do |a| %>
          <li><%= a.kind[0..3] %> | <%= a.name %></li>
          <% end %>
         </ol></blockquote>
     <% end %>
+<p><u>Courses of action summary:</u> </p>
+  <ol>
+    <% @coactions.each do |c| %>
+       <li><font color="green"><%= User.find(c.user_id).name[0..6] %>:</font> <%= c.name %>
+    <% end %>
+  </ol>
+    
+
 <p><u>Courses of action and their factors (factors can be repeated):</u> </p>
+<blockquote>
 <% @coactions.reverse.each do |coaction| %>
     
     <i><%= coaction.name %></i> accounts for <font color="green"><%= coaction.stickies.count %> factors: </font><br><blockquote>
@@ -32,6 +41,7 @@ Blurb: <%= @mission.blurb %>
     <% end %>
     </blockquote>
     <% end %>
+</blockquote>
 
 
     
