@@ -29,14 +29,20 @@ padding:10px;
    <%= link_to 'See all missions', missions_path %><br><br>
    <b>Mission: </b><%= @mission.name %>
    <br><b>Description: </b><%= @mission.blurb %>
+   
    <% if @collaborator.permission == ('creator' || 'admin') then %>
     <%= link_to 'Edit', edit_mission_path(@mission) %> |
    <% end %>
 
    <br><%= if @mission.is_public then 'Public' end %>
    <br>My role: <font color = "#00800"><%= @collaborator.permission.capitalize %></font>
-   <%= link_to "Add collaborators", new_mission_collaborator_path(@mission) %><br>
-   Mission planning stats:
+   
+   <% if current_user.invitation_limit >0 then %>
+        <%= link_to "Invite collaborators", new_mission_invitation_path(@mission) %>
+        (you have <%= current_user.invitation_limit %> left)<br>
+    <% end %>
+  
+    Mission planning stats:
    <blockquote>
    Collaborators:
    <%= if Collaborator.where(:mission_id => @mission.id).count > 1 then 

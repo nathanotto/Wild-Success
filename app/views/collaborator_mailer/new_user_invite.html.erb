@@ -5,12 +5,12 @@
   </head>
   <body>
     <p>
-   <%= @user.name %> has invited you to help plan for wild success on a mission code-named:<br>
+   <%= @user.name %> has invited you to help plan for Wild Success on a mission code-named:<br>
     <b><%= @mission.name %></b>
 <br/>
     </p>
     <p>
-      Click on this link to see your invitation: <%= link_to "PUT URL HERE so that they sign up and automatically have a mission in their collaboration", url_for(:host => "localhost:3000", :controller => "home", :action => "index") %>
+      <%= link_to "Start collaborating on " + @mission.name, url_for(:host => "localhost:3000", :controller => "invitations", :action => "accept", :token => @invitation.token) %>
     </p>
     <p>Enjoy your collaboration!</p>
   </body>

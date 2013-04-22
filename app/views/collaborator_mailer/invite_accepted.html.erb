@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>
+   <%= @user.name %>, <br>
+   <%= @invitation.recipient_email %> accepted your invitation to collaborate on: <br>
+    <b><%= @mission.name %></b>
+<br/>
+    </p>
+    <p>
+      <%= link_to "Start collaborating on " + @mission.name, url_for(:host => "localhost:3000", :controller => "missions", :action => "show", :id => @mission) %>
+    </p>
+    <p>Enjoy your collaboration!</p>
+  </body>
+</html>

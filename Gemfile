@@ -7,7 +7,9 @@ gem 'rails', '3.2.9'
 
 
 gem 'devise'
+gem 'devise_invitable', '~> 1.1.0'
 gem 'cancan'
+
 
 group :production do
   gem 'pg'
@@ -15,6 +17,7 @@ end
 
 group :development, :test do
   gem 'sqlite3'
+  gem "nifty-generators"
 end
 
 
@@ -46,3 +49,5 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+gem "mocha", :group => :test

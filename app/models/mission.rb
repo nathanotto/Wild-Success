@@ -14,4 +14,5 @@ class Mission < ActiveRecord::Base
     #has_many :essential_tasks, :dependent => :destroy
     has_many :coactions, :dependent => :destroy
     # belongs_to :users
+    has_many :invitations, :dependent => :destroy
 end

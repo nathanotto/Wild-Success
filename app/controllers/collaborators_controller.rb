@@ -1,4 +1,6 @@
 class CollaboratorsController < ApplicationController
+    before_filter :authenticate_user!
+    
     def new
         @user = User.find(current_user.id)
         @mission = Mission.find(params[:mission_id])
@@ -25,14 +27,6 @@ class CollaboratorsController < ApplicationController
     end
     
     def create
-        # This function will be given a list of proposed collaborators, who then
-        # need to confirm that they are collaborating.
-        # collaboration invitations show up on users screens with confirmations
-        # some collaborators are invited by email and don't have accounts
-        # email links will create the accounts and generate the collaborations
-        # the confirmation of the the email confirms the user, then the collaborator is confirmed
-        # on the home index screen of the user.
-        # ALL proposed collaborators will be sent emails
         @mission = Mission.find(params[:mission_id])
         @user = User.find(current_user.id)
         # first, email the existing users
@@ -72,7 +66,6 @@ class CollaboratorsController < ApplicationController
                 end
             end
         end 
-        # $param = params
         # trim the last "," off of names_string here and bad_emails
         if bad_email_count > 0 then
             names_string = names_string + " and couldn't send to: " + bad_emails

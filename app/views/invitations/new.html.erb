@@ -1,0 +1,15 @@
+<h2><% "Invite Collaborators" %></h2>
+
+<p id="notice"><%= notice %></p>
+
+Invite collaborators to <b><%= @mission.name %>:
+<%= form_for @invitation do |f| %>
+   <p>
+    <%= f.label :recipient_email, "Collaborator email address:" %><br />
+    <%= f.text_field :recipient_email %>
+    <%= hidden_field_tag :mission_id, @mission.id %>
+  </p>
+  <p><%= f.submit "Invite!"%></p>
+<% end %>
+
+

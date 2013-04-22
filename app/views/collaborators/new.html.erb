@@ -15,7 +15,7 @@ Current collaborators
 <% if @users then %>
     Collaborators on other missions: <%= @users.count %>
  <% else %>
-    <%= "no other collaborators found" %>
+    <%= "none" %>
  <% end %>
 
 <%= render :partial => "collaborators/form" , :locals => { :users => @users } %>

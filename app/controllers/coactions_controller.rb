@@ -1,4 +1,6 @@
 class CoactionsController < ApplicationController
+    before_filter :authenticate_user!
+    
     def index
         @mission = Mission.find(params[:mission_id])
         @coactions = @mission.coactions

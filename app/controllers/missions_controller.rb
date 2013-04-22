@@ -1,5 +1,5 @@
 class MissionsController < ApplicationController
-    before_filter :authenticate_user!, :except => [:show, :index]
+    before_filter :authenticate_user!
     
   # GET /missions
   # GET /missions.json
@@ -34,11 +34,12 @@ class MissionsController < ApplicationController
   def show
     @mission = Mission.find(params[:id])
     @collaborator = Collaborator.where(:mission_id => @mission.id, :user_id => current_user.id).first
-    @stickies = @mission.stickies
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @mission }
-    end
+    if @collaborator then
+        @stickies = @mission.stickies
+      else
+      flash[:notice] = "You don't have permission to access the mission."
+      redirect_to missions_path
+    end 
   end
     
   # GET /missions/plan  need to add route for /missions/plan

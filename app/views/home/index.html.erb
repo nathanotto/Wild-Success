@@ -1,9 +1,10 @@
 
-<h1>Plan Wild Success</h1>
+<p><h1>Plan Wild Success</h1></p>
+<p id="notice"><%= notice %></p>
 <% if current_user then %>
     <p><%= link_to "My Missions", missions_path %></p>
     <% @user = User.find(current_user.id) %>
-    <p>You are part of <%= Collaborator.where("user_id = ? AND (confirmed = ? OR confirmed = ?)", @user.id, 'true', 't').count %> missions. </p>
+    <p>Participating in <%= Collaborator.where("user_id = ? AND (confirmed = ? OR confirmed = ?)", @user.id, 'true', 't').count %> missions. </p>
     <p id="notice"><%= notice %></p>
     <% @collaborators = Collaborator.where("user_id = ? AND (confirmed = ? OR confirmed = ?)", @user.id, 'false', 'f') %>
     <% if @collaborators.count > 0 then %>
@@ -20,6 +21,18 @@
     <% end %>
 
 <% end %>
+
+<br>
+<ul>
+Update users to have first name and last name
+<li> Test invitation link and mailer DONE
+<li> write the Accept controller action for Invitations DONE
+<li> connect a new user to their invitation once they sign up
+<li> add "confirmation email was sent to your address" page to signup
+<li> Add a personal message to Invitations
+<li> add collaboration invitations to current users
+<li> update new user invitations to "add another","add another",... "done"
+</ul>
 
 
 

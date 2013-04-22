@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <% kind = params[:kind] %>
-Your job here is to<h3>
+<h2>
  <% if kind == 'success' then %>
-  Envision wild success for
+  Envision wild success for:
  <% end %>
  <% if kind == 'driver' then %>
   List drivers and resources for 
@@ -17,8 +17,7 @@ Your job here is to<h3>
  <% if kind == 'assumption' then %>
   List relevant assumptions for 
  <% end %>
- </h2>
- <b>Mission: </b><%= @mission.name + ":" %>
+ <b></b><%= @mission.name + "." %> </h2>
 <p><%= link_to 'Mission overview', @mission %> | <%= link_to "Plan courses of action", mission_coactions_path(@mission) %> |    
 
 

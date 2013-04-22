@@ -1,4 +1,6 @@
 class StickiesController < ApplicationController
+    before_filter :authenticate_user!
+    
     def create
         @mission = Mission.find(params[:mission_id])
         @sticky  = @mission.stickies.new(params[:sticky])

@@ -1,18 +1,15 @@
 Gsd::Application.routes.draw do
-  devise_for :users
+  resources :invitations
+     
+   devise_for :users, :controllers => {:registrations => "registrations"}
+    
+    devise_for :users
     resources :users do
-        resources :collaborators # do
-        # resources :missions
-        #  end
-        end 
- 
+        resources :collaborators
+    end
+    
 
   resources :missions do
-      resources :successes
-      resources :drivers
-      resources :constraints
-      resources :facts
-      resources :assumptions
       resources :collaborators
       resources :clumps
       resources :stickies do
@@ -21,6 +18,7 @@ Gsd::Application.routes.draw do
       resources :coactions do
           collection { post :sort }
           end
+      resources :invitations
     end
 
     put  "missions/:mission_id/clumps" => 'clumps#update'
@@ -28,6 +26,8 @@ Gsd::Application.routes.draw do
   get "home/index"
     
   match 'missions/finish/:id' => 'missions#finish'
+    
+  match 'invitations/accept/:token' => 'invitations#accept', :as => 'invitation_accept'
     
   get 'collaborator/confirm/:id' => 'collaborators#confirm', :as => 'confirm_collaborator'
 

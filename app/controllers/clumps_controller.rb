@@ -1,4 +1,6 @@
 class ClumpsController < ApplicationController
+    before_filter :authenticate_user!
+    
     def create 
         @mission = Mission.find(params[:mission_id])
         @clump = @mission.clumps.new(params[:clump])
