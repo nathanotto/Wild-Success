@@ -11,7 +11,7 @@ class CollaboratorMailer < ActionMailer::Base
     
   def existing_user_invite(invitation, recipient)
       @invitation = invitation
-      @user = recipeint
+      @user = recipient 
       @inviting_user = User.find(invitation.sender_id)
       @mission = Mission.find(invitation.mission_id)
         
