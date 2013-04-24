@@ -39,13 +39,15 @@ class InvitationsController < ApplicationController
     @mission = Mission.find(params[:mission_id])
       if User.find_by_email(params[:invitation][:recipient_email]) then
           user = User.find_by_email(params[:invitation][:recipient_email])
+          # edge case for when a user enters his own email address, not handled yet
+          # if user = current_user then
+              
           invitation = Invitation.new(params[:invitation])
           invitation.mission_id = @mission.id
           invitation.sender = current_user
           # note, there is no need for @invitation.save, as we don't ever use it again
-        # check if the collaboration is a duplicate
-          if  !(Collaborator.where(:user_id => user.id, :inviter_user_id => current_user.id, :mission_id => @mission.id)) then
-            c_new = Collaborator.new
+ 
+          c_new = Collaborator.new
             c_new.user_id = user.id
             c_new.inviter_user_id = current_user.id
             c_new.permission = 'colleague'
@@ -54,8 +56,8 @@ class InvitationsController < ApplicationController
             c_new.can_invite = 'f' # refinement: let this be a parameter set by admins and owners
             c_new.save
             # send email here
-            CollaboratorMailer.existing_user_invite(invitation, user).deliver
-        end 
+            CollaboratorMailer.existing_user_invite(current_user, user, @mission).deliver
+         
         redirect_to new_mission_invitation_path(@mission), :notice => user.email + " is already signed up. Invitation sent. Invite another?"
     else
         @invitation = Invitation.new(params[:invitation])

@@ -32,7 +32,8 @@ padding:10px;
 </td>
 
 <td>
-<%= link_to "Done inviting, continue", mission_stickies_path(@mission, :kind => 'success') %>
+  <%= link_to "Done inviting, continue", mission_stickies_path(@mission, :kind => 'success') %><br><br>
+  <%= current_user.invitation_limit %> beta invitations left.
 </td>
 
 </tr>
@@ -63,6 +64,8 @@ Search by name:
  <% end %>
 
 </td>
+<td>
+    (When you invite people already using Wild Success, it does not count against your beta invitation limit.)
 </tr>
 </table>
 

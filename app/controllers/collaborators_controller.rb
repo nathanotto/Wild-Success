@@ -38,9 +38,9 @@ class CollaboratorsController < ApplicationController
                 names_string = names_string + user.name + ", "
                 name_count += 1
                 # make new collaborator here: mission, user_id, inviter_user_id
-                if Collaborator.where(:user_id => user.id, :inviter_user_id => @user.id, :mission_id => @mission.id) then
-                    c_new = Collaborator.where(:user_id => user.id, :inviter_user_id => @user.id, :mission_id => @mission.id).first
-                else
+                # if Collaborator.where(:user_id => user.id, :inviter_user_id => @user.id, :mission_id => @mission.id) then
+                #   c_new = Collaborator.where(:user_id => user.id, :inviter_user_id => @user.id, :mission_id => @mission.id).first
+                # else
                   c_new = Collaborator.new
                   c_new.user_id = user.id
                   c_new.inviter_user_id = @user.id
@@ -49,19 +49,9 @@ class CollaboratorsController < ApplicationController
                   c_new.confirmed = 'f'
                   c_new.can_invite = 'f' # refinement: let this be a parameter set by admins and owners
                   c_new.save
-                end
-                if Invitation.where(:sender_id => current_user.id, :recipient_email => user.email, :mission_id => @mission.id) then
-                    i_new = Invitation.where(:sender_id => current_user.id, :recipient_email => user.email, :mission_id => @mission.id).first
-                else 
-                  # create the invitation also, to use the token
-                  i_new = Invitation.new
-                  i_new.sender = current_user
-                  i_new.recipient_email = user.email
-                  i_new.mission_id = @mission.id
-                  i_new.save
-                end 
+                # end
                 # send email here
-                CollaboratorMailer.existing_user_invite(i_new, user).deliver
+                CollaboratorMailer.existing_user_invite(current_user, user, @mission).deliver
             end
         end
         # redirect_to @mission, notice: "Emailed invitations to #{names_string}."

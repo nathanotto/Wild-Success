@@ -9,11 +9,10 @@ class CollaboratorMailer < ActionMailer::Base
        mail to: @invitation.recipient_email, subject: @user.name + " invites you to plan a mission!"
   end
     
-  def existing_user_invite(invitation, recipient)
-      @invitation = invitation
+  def existing_user_invite(inviter, recipient, mission)
       @user = recipient 
-      @inviting_user = User.find(invitation.sender_id)
-      @mission = Mission.find(invitation.mission_id)
+      @inviting_user = inviter 
+      @mission = mission 
         
       mail to: recipient.email, subject: "#{@inviting_user.name} invites you to plan a mission!"
   end
