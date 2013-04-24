@@ -31,4 +31,5 @@ class Invitation < ActiveRecord::Base
     def decrement_sender_count
         sender.decrement! :invitation_limit
     end
+    
 end

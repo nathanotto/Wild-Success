@@ -28,23 +28,50 @@
     <%= render "clumps/form" %>
 <% end %>
 
+<h2>Clumps:</h2>
 
-<table  width="50%" border = "1">
+<style>
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
+td
+{
+padding:8px;
+}
+</style>
+
+
+<table  width="70%" border = "1">
   <col width="500">
   <col width="500">
+  <tr>
+    <th>Clumps</th>
+    <th>Current clump</th>
+  </tr>
+  <td>
+    <%  clumps = @mission.clumps.find_all { |clump| clump.user_id && clump.kind == params[:kind] } %>
+    <%=  render clumps.reverse %>
+  </td>
+  <td>
+    <%= if params[:clump_id] then Clump.find(params[:clump_id]).name end || "No clump selected" %>
   <tr>
     <th><%= @mission.stickies.where(:kind => params[:kind], :clump_id => nil).count %> unclumped <%= params[:kind].pluralize.capitalize || @sticky.kind.pluralize.capitalize %></th>
     <th><%= if params[:clump_id] then Clump.find(params[:clump_id]).name end || "No clump selected" %></th>
   </tr>
    
   <tr>
-    <td><ul>
+    <td>
         <% @stickies = @mission.stickies.find_all { |sticky| sticky.user_id && sticky.kind == params[:kind] && !(sticky.clump_id) } %>
      
         <%= render @stickies, :unclumped => 'truly', :clump_id => params[:clump_id] %>
  
-        </ul>
-    </td><td><ul>
+        
+    </td><td>
             <% if params[:clump_id] then %>
             
               <% @stickies = @mission.stickies.where("kind = :kind AND clump_id = :clump_id ", { :kind => params[:kind], :clump_id => params[:clump_id] } ) %> 
@@ -54,16 +81,12 @@
             
             <%= render @stickies, :unclumped => 'not_true', :clump_id => params[:clump_id] %>
 
-        </ul>
+        
     </td>
   </tr>
 </table>
 
 <BR><BR>
-<h3>Clumps:</h3>
-
-<%  clumps = @mission.clumps.find_all { |clump| clump.user_id && clump.kind == params[:kind] } %>
-<%=  render clumps.reverse %>
 
 
 

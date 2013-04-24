@@ -5,12 +5,12 @@
   <% if clump_id then %>
     <%= link_to 'Add', mission_clumps_path(:mission_id => @mission.id,  :clump_id =>  clump_id, :sticky_id => sticky.id, :kind => sticky.kind, :add_to_clump => true) %>
     <% end %>
-  <%= sticky.name %>
+  <%= sticky.name %><br>
 
   <% end %>
   <% else  if unclumped == 'not_true' && defined? clump_id then%>
         <%= link_to 'Rem', mission_clumps_path(:mission_id => @mission.id, :kind => sticky.kind, :clump_id => clump_id, :sticky_id => sticky.id, :kind => sticky.kind, :add_to_clump => 'remove') %> | 
-        <%= sticky.name %>       
+        <%= sticky.name %><br>      
     <% end %>
     
     

@@ -2,14 +2,73 @@
 
 <p id="notice"><%= notice %></p>
 
-Invite collaborators to <b><%= @mission.name %>:
+Invite new collaborators to <b><%= @mission.name %></b>:<br>
+<style>
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
+td
+{
+padding:10px;
+}
+</style>
+
+<table border="1" width="500" cellpadding="5">
+<tr>
+<td>
 <%= form_for @invitation do |f| %>
    <p>
-    <%= f.label :recipient_email, "Collaborator email address:" %><br />
+    <%= f.label :recipient_email, "New collaborator email address:" %></b><br>
     <%= f.text_field :recipient_email %>
     <%= hidden_field_tag :mission_id, @mission.id %>
   </p>
-  <p><%= f.submit "Invite!"%></p>
+  <p><%= f.submit "Invite a new collaborator"%></p>
 <% end %>
+</td>
+
+<td>
+<%= link_to "Done inviting, continue", mission_stickies_path(@mission, :kind => 'success') %>
+</td>
+
+</tr>
+
+
+<%if @mission.users.count > 1 then %>
+    <%= @mission.users.count %> current collaborators: 
+    <% @mission.users.each do |user| %>
+        <%= user.name.capitalize + " | " %>
+      <% end %>
+    <% else %>
+       Only you so far.
+    <% end %> </p>
+
+<tr>
+<td>
+Search by name: 
+<%= form_tag new_mission_invitation_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+
+<% if @users then %>
+    Suggested collaborators and search results: <%= @users.count %>
+    <%= render :partial => "collaborators/form" , :locals => { :users => @users } %> 
+ <% end %>
+
+</td>
+</tr>
+</table>
+
+
+
+
+
 
 

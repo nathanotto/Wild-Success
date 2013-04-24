@@ -6,14 +6,16 @@
   <body>
     <p>Hi <%= @user.name %>,</p>
     <p>
-      <%= @inviting_user.name %> invited you to collaborate to plan for wild success planning<br>
+      <%= @inviting_user.name %> invited you to collaborate to use Wild Success on a mission called:<br>
       <b><%= @mission.name %></b>.
 <br/>
     </p>
     <p>
-      Click on this link to see your invitation: <%= link_to "Invitation", url_for(:host => "localhost:3000", :controller => "home", :action => "index") %>
+      See your invitation: <%= link_to "Invitation", url_for( :controller => "home", :action => "index", :only_path => false ) %>
     </p>
     <p>Enjoy your collaboration!</p>
+    <p></p>
+    <p>--The Wild Success team
   </body>
 </html>
 

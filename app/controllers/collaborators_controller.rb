@@ -32,57 +32,54 @@ class CollaboratorsController < ApplicationController
         # first, email the existing users
         names_string = " "
         name_count = 0
-        bad_emails = " "
-        bad_email_count = 0
         if params[:mission].present? then
             params[:mission][:user_ids].each do |id|
                 user = User.find(id)
-                names_string = names_string + user.email + ", "
+                names_string = names_string + user.name + ", "
                 name_count += 1
                 # make new collaborator here: mission, user_id, inviter_user_id
-                c_new = Collaborator.new
-                c_new.user_id = user.id
-                c_new.inviter_user_id = @user.id
-                c_new.permission = 'colleague'
-                c_new.mission_id = @mission.id
-                c_new.confirmed = 'f'
-                c_new.can_invite = 'f' # refinement: let this be a parameter set by admins and owners
-                c_new.save
+                if Collaborator.where(:user_id => user.id, :inviter_user_id => @user.id, :mission_id => @mission.id) then
+                    c_new = Collaborator.where(:user_id => user.id, :inviter_user_id => @user.id, :mission_id => @mission.id).first
+                else
+                  c_new = Collaborator.new
+                  c_new.user_id = user.id
+                  c_new.inviter_user_id = @user.id
+                  c_new.permission = 'colleague'
+                  c_new.mission_id = @mission.id
+                  c_new.confirmed = 'f'
+                  c_new.can_invite = 'f' # refinement: let this be a parameter set by admins and owners
+                  c_new.save
+                end
+                if Invitation.where(:sender_id => current_user.id, :recipient_email => user.email, :mission_id => @mission.id) then
+                    i_new = Invitation.where(:sender_id => current_user.id, :recipient_email => user.email, :mission_id => @mission.id).first
+                else 
+                  # create the invitation also, to use the token
+                  i_new = Invitation.new
+                  i_new.sender = current_user
+                  i_new.recipient_email = user.email
+                  i_new.mission_id = @mission.id
+                  i_new.save
+                end 
                 # send email here
-                CollaboratorMailer.existing_user_invite(user, @user, @mission).deliver
+                CollaboratorMailer.existing_user_invite(i_new, user).deliver
             end
         end
-        if params[:collaborator].present? then # then there is a list of emails there to process
-            emails = params[:collaborator][:email_list].split(",")
-            # verify each email is valid enough and throw away the baddies
-            emails.each do |em|
-                if em =~ /@/ then
-                    names_string = names_string + em + ", "
-                    name_count += 1
-                    CollaboratorMailer.new_user_invite(em, @user, @mission).deliver
-                else
-                    bad_emails = bad_emails + em + ", "
-                    bad_email_count += 1
-                end
-            end
-        end 
-        # trim the last "," off of names_string here and bad_emails
-        if bad_email_count > 0 then
-            names_string = names_string + " and couldn't send to: " + bad_emails
-        end 
         # redirect_to @mission, notice: "Emailed invitations to #{names_string}."
         if name_count < 1 then names_string = "No invitations sent. ,"
             else
             names_string = "Emailed invitations to " + names_string + "."
         end 
         names_string = names_string[0..-4] + '.'
-        redirect_to mission_stickies_path(@mission, :kind => 'success'), notice: names_string
+        redirect_to new_mission_invitation_path(@mission), notice: names_string
     end
     
     def confirm
         @collaborator = Collaborator.find(params[:id])
         @collaborator.update_attribute(:confirmed, 'true')
         flash[:notice] = "You are now collaborating with " + User.find(@collaborator.inviter_user_id).name + " on " + Mission.find(@collaborator.mission_id).name + "!"
+                   
+        CollaboratorMailer.invite_accepted(@collaborator).deliver
+
         redirect_to root_path
     end
     

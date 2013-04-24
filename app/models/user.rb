@@ -24,11 +24,20 @@ class User < ActiveRecord::Base
    
     
     def set_invitation_limit
-        self.invitation_limit = 25
+        self.invitation_limit = 10
     end
     
     def token=(token)
         self.invitation = Invitation.find_by_token(token)
     end
-
+    
+    def self.search(search)
+      if search
+         find(:all, :conditions => ['name LIKE ?', "%#{search}%"])
+      end
+    end 
 end
+
+
+
+

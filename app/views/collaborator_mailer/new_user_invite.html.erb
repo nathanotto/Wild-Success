@@ -10,7 +10,7 @@
 <br/>
     </p>
     <p>
-      <%= link_to "Start collaborating on " + @mission.name, url_for(:host => "localhost:3000", :controller => "invitations", :action => "accept", :token => @invitation.token) %>
+      <%= link_to "Start collaborating on " + @mission.name, url_for(:controller => "invitations", :action => "accept", :token => @invitation.token, :only_path => false) %>
     </p>
     <p>Enjoy your collaboration!</p>
   </body>

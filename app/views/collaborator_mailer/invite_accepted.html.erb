@@ -5,14 +5,15 @@
   </head>
   <body>
     <p>
-   <%= @user.name %>, <br>
-   <%= @invitation.recipient_email %> accepted your invitation to collaborate on: <br>
+   Hi <%= @sender.name %>, <br>
+   <%= @invitee.name %> accepted your invitation to collaborate on: <br>
     <b><%= @mission.name %></b>
 <br/>
     </p>
     <p>
-      <%= link_to "Start collaborating on " + @mission.name, url_for(:host => "localhost:3000", :controller => "missions", :action => "show", :id => @mission) %>
+      <%= link_to "Start collaborating:  " + @mission.name, url_for( mission_stickies_path(@mission, :kind => 'success', :only_path => false)) %>
     </p>
     <p>Enjoy your collaboration!</p>
   </body>
 </html>
+

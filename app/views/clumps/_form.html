@@ -1,6 +1,6 @@
 <%= form_for([@mission, @mission.clumps.build]) do |f| %>
 <div class="field">
-    <%= f.text_field :name, :size => 60, :value => 'New clump name here'  %>
+    <%= f.text_field :name, :size => 60  %>
     <%= f.hidden_field :kind, :value => params[:kind] %>
     
     <class="actions">

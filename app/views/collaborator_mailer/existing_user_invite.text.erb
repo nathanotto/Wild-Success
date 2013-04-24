@@ -5,6 +5,6 @@ Hi <%= @user.name %>,
 
 Click on this link to see your invitation:
 
-<%= url_for(:host => "localhost:3000", :controller => "home", :action => "index") %>
+<%= url_for( :controller => "home", :action => "index", :only_path => false ) %>
 
 (you might have to log in if you haven't visited Wild Success in a while)

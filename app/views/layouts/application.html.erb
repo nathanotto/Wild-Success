@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gsd</title>
+  <title>Wild Success</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%= image_tag('plan_wild_success_logo.png', :width => 400, :height => 50) %>
+<%= image_tag('beta_testing.png', :height => 50) %>
+
 <div id = "user_nav">
     <% if user_signed_in? %>
         Signed in as <%= current_user.name %>. Not you?
@@ -18,6 +21,8 @@
 </div>
 
 <%= yield %>
+
+
 
 </body>
 </html>

@@ -9,20 +9,21 @@ class CollaboratorMailer < ActionMailer::Base
        mail to: @invitation.recipient_email, subject: @user.name + " invites you to plan a mission!"
   end
     
-  def existing_user_invite(user, inviting_user, mission)
-      @user = user
-      @inviting_user = inviting_user
-      @mission = mission
+  def existing_user_invite(invitation, recipient)
+      @invitation = invitation
+      @user = recipeint
+      @inviting_user = User.find(invitation.sender_id)
+      @mission = Mission.find(invitation.mission_id)
         
-      mail to: user.email, subject: inviting_user.name + " invites you to plan a mission!"
+      mail to: recipient.email, subject: "#{@inviting_user.name} invites you to plan a mission!"
   end
     
-  def invite_accepted(invitation)
-      @user = User.find(invitation.sender.id)
-      @mission = Mission.find(invitation.mission_id)
-      @invitation = invitation
+  def invite_accepted(collaborator)
+      @sender = User.find(collaborator.inviter_user_id)
+      @invitee = User.find(collaborator.user_id)
+      @mission = Mission.find(collaborator.mission_id)
       
-      mail to: @user.email, subject: invitation.recipient_email + " accepted your invitation to collaborate!"
+      mail to: @sender.email, subject: @invitee.name + " accepted your invitation to collaborate!"
       
   end 
 

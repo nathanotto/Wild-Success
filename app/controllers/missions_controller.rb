@@ -88,7 +88,7 @@ class MissionsController < ApplicationController
       
     respond_to do |format|
       if @mission.save
-        format.html { redirect_to new_mission_collaborator_path(@mission), notice: 'Mission was successfully created.' }
+        format.html { redirect_to new_mission_invitation_path(@mission), notice: 'Mission was successfully created.' }
         format.json { render json: @mission, status: :created, location: @mission }
       else
         format.html { render action: "new" }
