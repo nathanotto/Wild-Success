@@ -21,7 +21,9 @@ class InvitationsController < ApplicationController
           end
           if !u_ids.empty? then @users = User.find(u_ids) end
           if params.has_key?(:search) then
-              @users = @users + User.search(params[:search])[0..19]
+              if @users then @users = @users + User.search(params[:search])[0..19]
+                else @users = User.search(params[:search])[0..19]
+              end 
               @users.uniq!
               @users = @users - @mission.users
           end

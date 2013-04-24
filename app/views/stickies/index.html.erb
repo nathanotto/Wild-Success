@@ -1,6 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<% kind = params[:kind] %>
+<% kind = params[:kind] || 'success' %>
+<style>
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
+td
+{
+padding:5px;
+}
+</style>
+
+<table width="60%">
+  <col width="600">
+<tr><td>
 <h2>
  <% if kind == 'success' then %>
   Envision wild success for:
@@ -17,16 +35,22 @@
  <% if kind == 'assumption' then %>
   List relevant assumptions for 
  <% end %>
- <b></b><%= @mission.name + "." %> </h2>
+ <font color="green"><%= @mission.name + "." %></font> </h2>
+
 <p><%= link_to 'Mission overview', @mission %> | <%= link_to "Plan courses of action", mission_coactions_path(@mission) %> |    
-
-
-<%= link_to 'Clump ' + kind.pluralize.capitalize, mission_clumps_path(:mission_id => @mission.id, :kind => kind) %>   
+<%= link_to 'Clump ' + kind.pluralize.capitalize, mission_clumps_path(:mission_id => @mission.id, :kind => kind) %> 
+</td></tr>
+<tr><td>
   <%= render :partial => "stickies/form", :locals => { :kind => kind, :track => 1 } %> 
 </p>
+</td></tr>
+<tr><td>
 
-<%= render :partial => "stickies/sticky_list", :locals => {:kind => kind, 
+   <%= render :partial => "stickies/sticky_list", :locals => {:kind => kind, 
                 :stickies => @stickies, :reorder => kind, :track => 1 } %>
+</td></tr>
+</table>
+
 
 <br>
 <blockquote>
