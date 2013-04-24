@@ -6,6 +6,7 @@
    <% Coaction.find(params[:coaction_id]).stickies.delete(Sticky.find(params[:sticky_id])) %>
  <% end %>
 <% end %>
+
 <p><%= link_to 'Back to mission', @mission %></p>
 
 <p>Plan courses of action for: <%= @mission.name %></p>
