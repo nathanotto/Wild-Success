@@ -15,6 +15,7 @@
         Signed in as <%= current_user.name %>. Not you?
         <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>&nbsp &nbsp
         <%= link_to "Home & Tutorial", home_index_path %>&nbsp &nbsp
+        <%= link_to "Account", edit_user_registration_path(current_user) %>&nbsp &nbsp
         <a href="mailto:wildsuccessfeedback@nathanotto.com?Subject=Got%20some%20comments%20for%20you">Feedback</a>
     <% else %>
         <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "Sign in", new_user_session_path %>.
