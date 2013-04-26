@@ -9,9 +9,9 @@
        <%= link_to 'del', mission_sticky_path(:mission_id => sticky.mission, :id => sticky, :track => track),
                :confirm => 'Are you sure?',
                :method => :delete %> | 
-               <%= sticky.name %>
+               <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
       <% else %>
-        <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
+        --- | <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
     <% end %> 
    <% end %>
   <% end %>
@@ -24,9 +24,10 @@
        <%= link_to 'del', mission_sticky_path(:mission_id => sticky.mission, :id => sticky, :track => track),
                :confirm => 'Are you sure?',
                :method => :delete %> | 
-               <%= sticky.name %>
+               <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font> | 
+               <%= sticky.name %> 
       <% else %>
-        <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
+        --- | <font color = "#FFA500"><%= User.find(sticky.user_id).name[0..2] %></font>: <%= sticky.name %>
     <% end %> 
     </li>
    <% end %>

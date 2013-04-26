@@ -10,9 +10,9 @@
       <% if (c.permission == ('creator' ||  'admin')) || coaction.user_id == current_user.id then %>
             <%= link_to 'del', [coaction.mission, coaction],
                   :confirm => 'Are you sure?',
-                  :method => :delete %> |
+                  :method => :delete %> | <font color = "#FFA500"><%= User.find(coaction.user_id).name[0..2] %></font>: 
          <% else %>
-            <font color = "#FFA500"><%= User.find(coaction.user_id).name[0..2] %></font>: 
+            --- | <font color = "#FFA500"><%= User.find(coaction.user_id).name[0..2] %></font>: 
         <% end %> 
       <%= link_to "#{coaction.name}", mission_coactions_path(:mission_id => params[:mission_id], :coaction_id => coaction.id)%>
       <% end %>
