@@ -36,7 +36,7 @@ class InvitationsController < ApplicationController
 
   def create
       # look for the email in the user database, and issue a collaboration invite if the email address is found
-    @mission = Mission.find(params[:mission_id])
+      @mission = Mission.find(params[:mission_id])
       if User.find_by_email(params[:invitation][:recipient_email]) then
           user = User.find_by_email(params[:invitation][:recipient_email])
           # edge case for when a user enters his own email address, not handled yet
@@ -47,7 +47,7 @@ class InvitationsController < ApplicationController
           invitation.sender = current_user
           # note, there is no need for @invitation.save, as we don't ever use it again
  
-          c_new = Collaborator.new
+            c_new = Collaborator.new
             c_new.user_id = user.id
             c_new.inviter_user_id = current_user.id
             c_new.permission = 'colleague'
