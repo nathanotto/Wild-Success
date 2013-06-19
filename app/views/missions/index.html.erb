@@ -18,34 +18,33 @@ padding:5px;
 }
 </style>
 
-<table width="90%">
-  <col width="150">
-  <col width="50">
-  <col width="100">
+<table class="table table-striped">
+  <col width="140">
+  <col width="10">
+  <col width="70">
   <col width="300">
   <col width="500">
 
-  <tr>
+  <thead>
+    <tr>
     <th>Actions</th>
-    <th>Public</th>
-    <th>Status</th>
+    <th>Pub</th>
+    <th>Role</th>
     <th>Name</th>
     <th>Blurb</th>
   </tr>
-
- <% @missions.each do |mission| %>
+  </thead>
+  <tbody>
+    <% @missions.each do |mission| %>
   <tr>
     <td>
     <% @collaborator = Collaborator.where( :mission_id => mission.id, :user_id => current_user.id ) %>
     <% if @collaborator.first.permission != 'viewer' then %>
-       <%= link_to 'Plan', mission_stickies_path(mission, :kind => 'success') %>|<%= link_to 'View', mission_path(mission) %>
+       <%= link_to 'Plan', mission_stickies_path(mission, :kind => 'success'), :class => 'btn btn-mini' %> <%= link_to 'View', mission_path(mission), :class => 'btn btn-mini' %>
     <% end %>
     <% if @collaborator.first.permission == 'creator' || @collaborator.first.permission == 'admin' then   %>
-       |<%= link_to 'Edit', edit_mission_path(mission) %>|<%= link_to 'Destroy', mission, method: :delete, data: { confirm: 'All mission data will be permantently deleted. Are you sure?' } %>
-    <% else %>   
-      Owner: <% c = Collaborator.where(:mission_id => mission.id, :permission => ['creator','admin']).first %>
-             <%= User.find(c.user_id).name[0..2] %>
-    <% end %>
+       <%= link_to 'Edit', edit_mission_path(mission), :class => 'btn btn-mini' %> <%= link_to 'Del', mission, method: :delete, data: { confirm: 'All mission data will be permantently deleted. Are you sure?' }, :class => 'btn btn-mini btn-danger' %>
+       <% end %>
     </td>
     <td><%= if mission.is_public then 'Yes' else 'No' end %></td>
     <td> <%= @collaborator.first.permission.capitalize %></td>
@@ -58,6 +57,5 @@ padding:5px;
  <% end %>
 </table>
 
-<br />
 
-</blockquote>
+  
